@@ -1,0 +1,2425 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Airlines Passenger Satisfaction Analysis</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R Projects</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="airlines_passenger_satisfaction_analysis.html">Airlines Passenger Satisfaction Analysis</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Airlines Passenger Satisfaction Analysis</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#project-charter.">1 Project Charter.</a></li>
+<li><a href="#about-the-dataset.">2 About the dataset.</a></li>
+<li><a href="#exploratory-data-analysis.">3 Exploratory data analysis.</a><ul>
+<li><a href="#investigate-the-data-structure.">3.1 Investigate the data structure.</a></li>
+<li><a href="#explore-categorical-variables.">3.2 Explore categorical variables.</a></li>
+<li><a href="#explore-numerical-variables.">3.3 Explore numerical variables.</a></li>
+<li><a href="#check-the-correlation.">3.4 Check the correlation.</a></li>
+<li><a href="#investigate-the-age-variable.">3.5 Investigate the ‘Age’ variable.</a></li>
+</ul></li>
+<li><a href="#investigate-the-cost-of-customer-churn.">4 Investigate the cost of customer churn.</a></li>
+<li><a href="#data-preprocessing.">5 Data Preprocessing.</a><ul>
+<li><a href="#prepare-train-and-test-set.">5.1 Prepare TRAIN and TEST set.</a></li>
+<li><a href="#double-check-if-null-exists.">5.2 Double check if null exists.</a></li>
+</ul></li>
+<li><a href="#model-training-and-evaluation.">6 Model training and evaluation.</a><ul>
+<li><a href="#train-logistic-model.">6.1 Train Logistic model.</a></li>
+<li><a href="#train-decision-tree-model.">6.2 Train Decision Tree model.</a></li>
+<li><a href="#train-random-forest-model.">6.3 Train Random Forest model.</a></li>
+<li><a href="#train-xgboost-model.">6.4 Train XGBoost model.</a></li>
+</ul></li>
+<li><a href="#save-the-models.">7 Save the models.</a></li>
+<li><a href="#model-comparison.">8 Model comparison.</a></li>
+<li><a href="#model-interpretation.">9 Model interpretation.</a></li>
+<li><a href="#explore-the-important-variables-effect-on-the-cost-of-customer-churn.">10 Explore the important variable’s effect on the cost of customer churn.</a><ul>
+<li><a href="#find-the-optimal-discriminant-threshold.">10.1 Find the optimal discriminant threshold.</a></li>
+<li><a href="#compare-the-new-estimated-customer-churn-cost-after-improving-the-rating.">10.2 Compare the new estimated customer churn cost after improving the rating.</a></li>
+<li><a href="#compare-the-proportion-of-the-neutralunsatisfied-customers-after-improving-the-rating.">10.3 Compare the proportion of the neutral/unsatisfied customers after improving the rating.</a></li>
+</ul></li>
+<li><a href="#conclusion.">11 Conclusion.</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="project-charter." class="section level2">
+<h2>1 Project Charter.</h2>
+<p><strong>Problem statement:</strong></p>
+<p>Airline industry is getting more competitive due to the disruption of budget airlines, which allow customers to travel to their destination at a much cheaper price though with less service quality. If the customer experience at Falcon Airlines is predominantly negative, it will quickly become detrimental to the company’s profit due to high capital expenditure and maintenance cost.</p>
+<p><strong>Business case:</strong></p>
+<p>Knowing the customers’ preference and feedback allows Falcon Airlines to improve their standards and services on areas that matter to the customers, and strategize the emotional selling points for their marketing campaign to stand out among their competitors, hence maintaining the company’s competitiveness and customer loyalty.</p>
+<p><strong>Project goal:</strong></p>
+<p>Predict whether a passenger will be satisfied or not given the rest of the details are provided and identify which variables/features play an important role in swaying a passenger feedback towards ‘satisfied’.</p>
+<p><strong>Project scope:</strong></p>
+<p>Perform data mining on the entire journey of the customers experience beginning from website experience, online services, and departure to onboard experience, flight duration, and arrival.</p>
+<hr />
+</div>
+<div id="about-the-dataset." class="section level2">
+<h2>2 About the dataset.</h2>
+<p><strong>There are 2 datasets:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The <code>Flight</code> data has information related to passengers and the performance of flights in which they travelled.</li>
+<li>The <code>Survey</code> data is the aggregated data of surveys collected post service experience.</li>
+</ol>
+<p><strong>Assumptions about the survey:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Integrity: We assume customers are providing their honest and careful feedback for the survey.</li>
+<li>Situation &amp; context: We assume the customers aren’t hurry to complete the survey after arriving at the destination and experiencing the service since most customers (about 69%) are business travellers as they could be busy with work. This would result in a bias outcome.<br />
+</li>
+<li>Question &amp; feedback: We assume those survey questions are what the customers care about as the customers can’t fill in any feedback other than choosing on a 1–5 scale based on those fixed questions. The outcome will not be holistic if the company assumes these are the only questions that matter to the customers. Additional research has to be done to obtain a more accurate picture of our customers’ preference and feedback.</li>
+</ol>
+<p><strong>Data limitation:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The variables/features from the survey data will not be suitable to train the model to predict the customers’ satisfaction, because we will have to constantly gather the same survey data from new customers to make future prediction which doesn’t make sense since we could directly ask them to indicate their satisfaction level. However, the goal of this project is to identify the important variables/features that can significantly improve customers’ satisfaction. Hence, we are using the model to identify important variables/features based on their effect on the satisfaction outcome.</li>
+<li>Survey is not perfect method for gathering customers’ preference and feedback, hence additional research need to be done to obtain a more holistic picture.</li>
+</ol>
+<hr />
+</div>
+<div id="exploratory-data-analysis." class="section level2">
+<h2>3 Exploratory data analysis.</h2>
+<pre class="r"><code>df_falconAirlines = read_rds(&#39;docs/dataset/df_falconAirlines.rds&#39;)
+
+head(df_falconAirlines, 10)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["CustomerId"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Satisfaction"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["Gate_location"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["Seat_comfort"],"name":[4],"type":["fctr"],"align":["left"]},{"label":["Departure_Arrival_time_convenient"],"name":[5],"type":["fctr"],"align":["left"]},{"label":["Food_drink"],"name":[6],"type":["fctr"],"align":["left"]},{"label":["Inflightwifi_service"],"name":[7],"type":["fctr"],"align":["left"]},{"label":["Inflight_entertainment"],"name":[8],"type":["fctr"],"align":["left"]},{"label":["Online_support"],"name":[9],"type":["fctr"],"align":["left"]},{"label":["Ease_of_Onlinebooking"],"name":[10],"type":["fctr"],"align":["left"]},{"label":["Onboard_service"],"name":[11],"type":["fctr"],"align":["left"]},{"label":["Leg_room_service"],"name":[12],"type":["fctr"],"align":["left"]},{"label":["Baggage_handling"],"name":[13],"type":["fctr"],"align":["left"]},{"label":["Checkin_service"],"name":[14],"type":["fctr"],"align":["left"]},{"label":["Cleanliness"],"name":[15],"type":["fctr"],"align":["left"]},{"label":["Online_boarding"],"name":[16],"type":["fctr"],"align":["left"]},{"label":["Gender"],"name":[17],"type":["fctr"],"align":["left"]},{"label":["CustomerType"],"name":[18],"type":["fctr"],"align":["left"]},{"label":["TypeTravel"],"name":[19],"type":["fctr"],"align":["left"]},{"label":["Class"],"name":[20],"type":["fctr"],"align":["left"]},{"label":["Age"],"name":[21],"type":["dbl"],"align":["right"]},{"label":["Flight_Distance"],"name":[22],"type":["dbl"],"align":["right"]},{"label":["DepartureDelayin_Mins"],"name":[23],"type":["dbl"],"align":["right"]},{"label":["ArrivalDelayin_Mins"],"name":[24],"type":["dbl"],"align":["right"]}],"data":[{"1":"149965","2":"satisfied","3":"need_improvement","4":"extremely_poor","5":"extremely_poor","6":"extremely_poor","7":"need_improvement","8":"good","9":"need_improvement","10":"acceptable","11":"acceptable","12":"extremely_poor","13":"acceptable","14":"excellent","15":"acceptable","16":"need_improvement","17":"female","18":"loyal_customer","19":"personal_travel","20":"eco","21":"65","22":"265","23":"0","24":"0"},{"1":"149966","2":"satisfied","3":"manageable","4":"extremely_poor","5":"extremely_poor","6":"extremely_poor","7":"need_improvement","8":"extremely_poor","9":"need_improvement","10":"need_improvement","11":"NA","12":"acceptable","13":"good","14":"good","15":"good","16":"need_improvement","17":"female","18":"loyal_customer","19":"personal_travel","20":"eco","21":"15","22":"2138","23":"0","24":"0"},{"1":"149967","2":"satisfied","3":"manageable","4":"extremely_poor","5":"NA","6":"extremely_poor","7":"acceptable","8":"good","9":"acceptable","10":"poor","11":"poor","12":"extremely_poor","13":"poor","14":"good","15":"poor","16":"acceptable","17":"female","18":"loyal_customer","19":"personal_travel","20":"eco","21":"60","22":"623","23":"0","24":"0"},{"1":"149968","2":"satisfied","3":"manageable","4":"extremely_poor","5":"extremely_poor","6":"extremely_poor","7":"good","8":"acceptable","9":"good","10":"need_improvement","11":"need_improvement","12":"extremely_poor","13":"need_improvement","14":"good","15":"need_improvement","16":"excellent","17":"female","18":"loyal_customer","19":"personal_travel","20":"eco","21":"70","22":"354","23":"0","24":"0"},{"1":"149969","2":"satisfied","3":"manageable","4":"extremely_poor","5":"extremely_poor","6":"extremely_poor","7":"need_improvement","8":"extremely_poor","9":"need_improvement","10":"need_improvement","11":"excellent","12":"good","13":"excellent","14":"excellent","15":"good","16":"need_improvement","17":"male","18":"loyal_customer","19":"NA","20":"eco","21":"30","22":"1894","23":"0","24":"0"},{"1":"149970","2":"satisfied","3":"manageable","4":"extremely_poor","5":"extremely_poor","6":"NA","7":"need_improvement","8":"excellent","9":"excellent","10":"excellent","11":"excellent","12":"extremely_poor","13":"excellent","14":"excellent","15":"excellent","16":"acceptable","17":"female","18":"loyal_customer","19":"personal_travel","20":"eco","21":"66","22":"227","23":"17","24":"15"},{"1":"149971","2":"satisfied","3":"manageable","4":"extremely_poor","5":"extremely_poor","6":"NA","7":"need_improvement","8":"extremely_poor","9":"need_improvement","10":"need_improvement","11":"acceptable","12":"acceptable","13":"good","14":"excellent","15":"good","16":"need_improvement","17":"male","18":"loyal_customer","19":"personal_travel","20":"eco","21":"10","22":"1812","23":"0","24":"0"},{"1":"149972","2":"satisfied","3":"manageable","4":"extremely_poor","5":"NA","6":"extremely_poor","7":"need_improvement","8":"extremely_poor","9":"need_improvement","10":"need_improvement","11":"need_improvement","12":"good","13":"excellent","14":"acceptable","15":"good","16":"need_improvement","17":"male","18":"loyal_customer","19":"personal_travel","20":"eco","21":"22","22":"1556","23":"30","24":"26"},{"1":"149973","2":"satisfied","3":"manageable","4":"extremely_poor","5":"extremely_poor","6":"extremely_poor","7":"acceptable","8":"acceptable","9":"acceptable","10":"acceptable","11":"acceptable","12":"extremely_poor","13":"poor","14":"need_improvement","15":"acceptable","16":"excellent","17":"female","18":"loyal_customer","19":"personal_travel","20":"eco","21":"58","22":"104","23":"47","24":"48"},{"1":"149974","2":"satisfied","3":"convenient","4":"extremely_poor","5":"extremely_poor","6":"extremely_poor","7":"need_improvement","8":"extremely_poor","9":"need_improvement","10":"need_improvement","11":"acceptable","12":"need_improvement","13":"excellent","14":"need_improvement","15":"excellent","16":"need_improvement","17":"female","18":"loyal_customer","19":"personal_travel","20":"eco","21":"34","22":"3633","23":"0","24":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<div id="investigate-the-data-structure." class="section level3">
+<h3>3.1 Investigate the data structure.</h3>
+<div id="check-duplicates." class="section level4">
+<h4>3.1.1 Check duplicates.</h4>
+<pre class="r"><code>df_falconAirlines %&gt;% 
+    duplicated() %&gt;% 
+    as_tibble() %&gt;% 
+    summarise(total_duplicates = sum(value)) </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["total_duplicates"],"name":[1],"type":["int"],"align":["right"]}],"data":[{"1":"0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The joined dataset contains no duplicates.</li>
+</ol>
+<hr />
+</div>
+<div id="check-null-percentage." class="section level4">
+<h4>3.1.2 Check null percentage.</h4>
+<pre class="r"><code>df_falconAirlines %&gt;% 
+    summarise_all(~ sum(is.na(.)) / length(.) * 100) %&gt;% 
+    gather() %&gt;% 
+    filter(value &gt; 0) %&gt;% 
+    set_names(c(&#39;variables&#39;, &#39;null_percent&#39;)) %&gt;% 
+    mutate(null_percent = round(null_percent, 2)) </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["variables"],"name":[1],"type":["chr"],"align":["left"]},{"label":["null_percent"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Departure_Arrival_time_convenient","2":"9.07"},{"1":"Food_drink","2":"9.00"},{"1":"Onboard_service","2":"7.90"},{"1":"CustomerType","2":"10.01"},{"1":"TypeTravel","2":"10.00"},{"1":"ArrivalDelayin_Mins","2":"0.31"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>CustomersType</code> should contain either loyal or disloyal customers. Null could probably mean the company is unable to accurately identify the customers’ loyalty. I will apply Bagged Trees Imputation to fill the null.</li>
+<li><code>TypeTravel</code> should contain either business or personal travel. Null could probably mean the company is unable to identify the customers’ travel motive. I will apply Bagged Trees Imputation to fill the null.</li>
+<li><code>ArrivalDelayin_Mins</code> contains 0.31% of null.</li>
+<li><code>Departure_Arrival_time_convenient</code> contains 9% of null. It should contain customer’s rating. Instead of assigning an “unknown” category. I will apply Bagged Trees Imputation to fill the null so that I can transform the variables into numerical ordinal values.</li>
+<li>As for <code>Food_drink</code> and <code>Onboard_service</code>, null could probably mean customers did not order any food and drink or ask for any onboard service, thus no rating is given. Instead of assigning a “not applicable” category, I will apply Bagged Trees Imputation to fill the null instead so that I can transform the variables into numerical ordinal values.</li>
+</ol>
+<hr />
+</div>
+<div id="summarise-data." class="section level4">
+<h4>3.1.3 Summarise data.</h4>
+<pre class="r"><code>df_falconAirlines %&gt;% summary()</code></pre>
+<pre><code>##    CustomerId                      Satisfaction  
+##  Min.   :149965   neutral_or dissatisfied:41156  
+##  1st Qu.:172694   satisfied              :49761  
+##  Median :195423                                  
+##  Mean   :195423                                  
+##  3rd Qu.:218152                                  
+##  Max.   :240881                                  
+##                                                  
+##            Gate_location             Seat_comfort  
+##  very_inconvenient:    1   extremely_poor  : 3368  
+##  inconvenient     :15876   poor            :14687  
+##  need_improvement :17113   need_improvement:20002  
+##  manageable       :23385   acceptable      :20552  
+##  convenient       :21088   good            :19789  
+##  very_convenient  :13454   excellent       :12519  
+##                                                    
+##  Departure_Arrival_time_convenient            Food_drink   
+##  extremely_poor  : 4199            extremely_poor  : 3794  
+##  poor            :13210            poor            :13400  
+##  need_improvement:14539            need_improvement:17359  
+##  acceptable      :14806            acceptable      :17991  
+##  good            :18840            good            :17245  
+##  excellent       :17079            excellent       :12947  
+##  NA&#39;s            : 8244            NA&#39;s            : 8181  
+##        Inflightwifi_service      Inflight_entertainment
+##  extremely_poor  :   96     extremely_poor  : 2038     
+##  poor            :10311     poor            : 8198     
+##  need_improvement:18894     need_improvement:13527     
+##  acceptable      :19199     acceptable      :16995     
+##  good            :22159     good            :29373     
+##  excellent       :20258     excellent       :20786     
+##                                                        
+##           Online_support       Ease_of_Onlinebooking
+##  extremely_poor  :    1   extremely_poor  :   12    
+##  poor            : 9805   poor            : 9370    
+##  need_improvement:12063   need_improvement:13896    
+##  acceptable      :15090   acceptable      :15686    
+##  good            :29042   good            :27993    
+##  excellent       :24916   excellent       :23960    
+##                                                     
+##          Onboard_service          Leg_room_service
+##  extremely_poor  :    3   extremely_poor  :  322  
+##  poor            : 8537   poor            : 7779  
+##  need_improvement:11018   need_improvement:15156  
+##  acceptable      :17411   acceptable      :15775  
+##  good            :26373   good            :27814  
+##  excellent       :20396   excellent       :24071  
+##  NA&#39;s            : 7179                           
+##          Baggage_handling         Checkin_service 
+##  extremely_poor  :    0   extremely_poor  :    1  
+##  poor            : 5559   poor            :10761  
+##  need_improvement: 9301   need_improvement:10813  
+##  acceptable      :17233   acceptable      :24941  
+##  good            :33822   good            :25483  
+##  excellent       :25002   excellent       :18918  
+##                                                   
+##            Cleanliness            Online_boarding     Gender     
+##  extremely_poor  :    4   extremely_poor  :    9   female:46186  
+##  poor            : 5375   poor            :10777   male  :44731  
+##  need_improvement: 9283   need_improvement:13035                 
+##  acceptable      :16930   acceptable      :21427                 
+##  good            :34246   good            :24676                 
+##  excellent       :25079   excellent       :20993                 
+##                                                                  
+##             CustomerType             TypeTravel         Class      
+##  disloyal_customer:14921   business_travel:56481   eco     :40758  
+##  loyal_customer   :66897   personal_travel:25348   eco_plus: 6624  
+##  NA&#39;s             : 9099   NA&#39;s           : 9088   business:43535  
+##                                                                    
+##                                                                    
+##                                                                    
+##                                                                    
+##       Age        Flight_Distance DepartureDelayin_Mins
+##  Min.   : 7.00   Min.   :  50    Min.   :   0.00      
+##  1st Qu.:27.00   1st Qu.:1360    1st Qu.:   0.00      
+##  Median :40.00   Median :1927    Median :   0.00      
+##  Mean   :39.45   Mean   :1982    Mean   :  14.69      
+##  3rd Qu.:51.00   3rd Qu.:2542    3rd Qu.:  12.00      
+##  Max.   :85.00   Max.   :6950    Max.   :1592.00      
+##                                                       
+##  ArrivalDelayin_Mins
+##  Min.   :   0.00    
+##  1st Qu.:   0.00    
+##  Median :   0.00    
+##  Mean   :  15.06    
+##  3rd Qu.:  13.00    
+##  Max.   :1584.00    
+##  NA&#39;s   :284</code></pre>
+<hr />
+</div>
+</div>
+<div id="explore-categorical-variables." class="section level3">
+<h3>3.2 Explore categorical variables.</h3>
+<pre class="r"><code># Check target variable&#39;s class proprotion. 
+df_falconAirlines$Satisfaction %&gt;% summary() / nrow(df_falconAirlines)</code></pre>
+<pre><code>## neutral_or dissatisfied               satisfied 
+##               0.4526766               0.5473234</code></pre>
+<pre class="r"><code># Visualise the distribution. 
+plotBarCat(df_falconAirlines, &#39;Satisfaction&#39;)</code></pre>
+<p><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-5-1.png" width="2100" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><strong>Findings from the target variable:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Looking at the <code>Satisfaction</code> variable, about 46% of the customers feel neutral/dissatisfied, whereas 54% feel satisfied. Hence, the dataset has a balanced class.</li>
+</ol>
+<hr />
+<pre class="r"><code>flightCat = c(&#39;CustomerType&#39;, &#39;TypeTravel&#39;, &#39;Class&#39;)
+
+for (cat in flightCat) {
+    df_falconAirlines %&gt;%
+        plotInteract(&#39;Satisfaction&#39;, cat, &#39;Satisfaction&#39;)
+}</code></pre>
+<p><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-6-1.png" width="2100" style="display: block; margin: auto auto auto 0;" /><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-6-2.png" width="2100" style="display: block; margin: auto auto auto 0;" /><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-6-3.png" width="2100" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><strong>Findings from the variable’s interaction with customer satisfaction:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Each of the variables/features above seem to contribute a medium impact to the model predictability looking how the lines show the opposite trend or direction.</li>
+</ol>
+<hr />
+</div>
+<div id="explore-numerical-variables." class="section level3">
+<h3>3.3 Explore numerical variables.</h3>
+<pre class="r"><code>numPlot1 = plotDensityNum(df_falconAirlines, &#39;Age&#39;, &#39;Satisfaction&#39;)
+numPlot2 = plotDensityNum(df_falconAirlines, &#39;Flight_Distance&#39;, &#39;Satisfaction&#39;)
+
+multi_plot = grid.arrange(numPlot1, numPlot2, nrow=2, ncol=1)</code></pre>
+<p><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-7-1.png" width="2100" style="display: block; margin: auto auto auto 0;" /></p>
+<pre class="r"><code># Zoomed in the plot. 
+numPlot3 = plotDensityNumLim(df_falconAirlines, &#39;DepartureDelayin_Mins&#39;, &#39;Satisfaction&#39;)
+numPlot4 = plotDensityNumLim(df_falconAirlines, &#39;ArrivalDelayin_Mins&#39;, &#39;Satisfaction&#39;)
+
+multi_plot = grid.arrange(numPlot3, numPlot4, nrow=2, ncol=1)</code></pre>
+<p><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-8-1.png" width="2100" style="display: block; margin: auto auto auto 0;" /></p>
+<hr />
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Looking at the <code>Age</code> feature, there is a small separation between the 2 distributions. It seems that there are greater proportion of customers below age 40 feel neutral/dissatisfied than those above age 40. I will discretise the numerical value into categorical bins to improve the feature interpretability when investigating the feature weight or importance.</li>
+<li>Looking at the <code>Flight_Distance</code> feature, there is no significant separation between the 2 distributions. It might be a weak predictor for customers’ satisfaction, hence I will remove it.</li>
+<li>Looking at <code>DepartureDelayin_Mins</code> and <code>ArrivalDelayin_Mins</code> features, both shows only a slight separation between the 2 distributions (red and turquoise). I will keep these variables to see how it performs.</li>
+</ol>
+<hr />
+</div>
+<div id="check-the-correlation." class="section level3">
+<h3>3.4 Check the correlation.</h3>
+<pre class="r"><code># Find correlation between each numerical variables. 
+df_falconAirlines %&gt;% 
+    select(Age, Flight_Distance, DepartureDelayin_Mins, ArrivalDelayin_Mins) %&gt;% 
+    cor(method=&quot;pearson&quot;, use=&quot;pairwise.complete.obs&quot;) %&gt;% 
+    round(2) %&gt;% 
+    get_lower_tri() </code></pre>
+<pre><code>##                         Age Flight_Distance DepartureDelayin_Mins
+## Age                    1.00              NA                    NA
+## Flight_Distance       -0.25            1.00                    NA
+## DepartureDelayin_Mins -0.01            0.11                  1.00
+## ArrivalDelayin_Mins   -0.01            0.11                  0.97
+##                       ArrivalDelayin_Mins
+## Age                                    NA
+## Flight_Distance                        NA
+## DepartureDelayin_Mins                  NA
+## ArrivalDelayin_Mins                     1</code></pre>
+<hr />
+<p><strong>Findings from the correlation between numerical variables:</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>DepartureDelayin_Mins</code> and <code>ArrivalDelayin_Mins</code> have a correlation of 0.97. I will remove <code>ArrivalDelayin_Mins</code> since it contains 0.31% of null.</li>
+</ol>
+<hr />
+<pre class="r"><code># Find correlation between each numerical and categorical variables. 
+corr_results = df_falconAirlines %&gt;% 
+    select(-CustomerId, -CustomerType, -TypeTravel, -Gender, -Satisfaction) %&gt;% 
+    mutate_all(as.numeric) %&gt;% 
+    cor(method=&quot;spearman&quot;, use=&quot;pairwise.complete.obs&quot;) 
+
+# For selecting variables that have correlation above 0.6
+cols = c(&#39;Online_support&#39;, &#39;Ease_of_Onlinebooking&#39;,
+         &#39;Seat_comfort&#39;, &#39;Food_drink&#39;, &#39;Online_boarding&#39;)
+
+# Display the correlation results. 
+corr_results[cols, cols] %&gt;% 
+    round(2) %&gt;% 
+    get_lower_tri() </code></pre>
+<pre><code>##                       Online_support Ease_of_Onlinebooking
+## Online_support                  1.00                    NA
+## Ease_of_Onlinebooking           0.60                  1.00
+## Seat_comfort                    0.12                  0.20
+## Food_drink                      0.03                  0.03
+## Online_boarding                 0.65                  0.66
+##                       Seat_comfort Food_drink Online_boarding
+## Online_support                  NA         NA              NA
+## Ease_of_Onlinebooking           NA         NA              NA
+## Seat_comfort                  1.00         NA              NA
+## Food_drink                    0.71       1.00              NA
+## Online_boarding               0.13       0.01               1</code></pre>
+<hr />
+<p><strong>Findings from the Spearman correlation between ordinal variables:</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>Ease_of_Onlinebooking</code>, <code>Online_boarding</code>, <code>Online_support</code> are about 60% correlated. It probably makes sense because these variables contribute to the overall user experience, hence should be taken in consideration as a whole should Falcon Airlines makes any improvement to the website or app.</li>
+<li><code>Food_drink</code> and <code>seat_comfort</code> are about 70% correlated.</li>
+</ol>
+<p>I can apply variance inflation factor when training the logistic regression model to avoid multi-collinearity issue.</p>
+<hr />
+<pre class="r"><code># Select categorical variable names. 
+catNames = df_falconAirlines %&gt;% 
+    select_if(is.factor) %&gt;% 
+    names()
+
+# Preview.
+catNames</code></pre>
+<pre><code>##  [1] &quot;Satisfaction&quot;                     
+##  [2] &quot;Gate_location&quot;                    
+##  [3] &quot;Seat_comfort&quot;                     
+##  [4] &quot;Departure_Arrival_time_convenient&quot;
+##  [5] &quot;Food_drink&quot;                       
+##  [6] &quot;Inflightwifi_service&quot;             
+##  [7] &quot;Inflight_entertainment&quot;           
+##  [8] &quot;Online_support&quot;                   
+##  [9] &quot;Ease_of_Onlinebooking&quot;            
+## [10] &quot;Onboard_service&quot;                  
+## [11] &quot;Leg_room_service&quot;                 
+## [12] &quot;Baggage_handling&quot;                 
+## [13] &quot;Checkin_service&quot;                  
+## [14] &quot;Cleanliness&quot;                      
+## [15] &quot;Online_boarding&quot;                  
+## [16] &quot;Gender&quot;                           
+## [17] &quot;CustomerType&quot;                     
+## [18] &quot;TypeTravel&quot;                       
+## [19] &quot;Class&quot;</code></pre>
+<pre class="r"><code># Find correlation between each categorical variables with `Satisfaction`. 
+df_falconAirlines %&gt;% 
+    cramer_corr(catNames, &#39;Satisfaction&#39;) %&gt;% 
+    as.data.frame() %&gt;% 
+    filter(variable != &#39;Baggage_handling&#39;) %&gt;% 
+    arrange(desc(cramer)) </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["variable"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["cramer"],"name":[2],"type":["fctr"],"align":["left"]}],"data":[{"1":"Inflight_entertainment","2":"0.639268085016792"},{"1":"Seat_comfort","2":"0.471769575989941"},{"1":"Ease_of_Onlinebooking","2":"0.453261862571313"},{"1":"Online_support","2":"0.431646347233728"},{"1":"Onboard_service","2":"0.360286620354981"},{"1":"Online_boarding","2":"0.348133711652928"},{"1":"Leg_room_service","2":"0.337433279445608"},{"1":"Class","2":"0.314836878500457"},{"1":"Cleanliness","2":"0.304914968262666"},{"1":"CustomerType","2":"0.293597832545281"},{"1":"Checkin_service","2":"0.281377235539842"},{"1":"Food_drink","2":"0.265839591386635"},{"1":"Inflightwifi_service","2":"0.243609829903224"},{"1":"Gender","2":"0.211114521751906"},{"1":"Gate_location","2":"0.14568970482666"},{"1":"TypeTravel","2":"0.111038588549111"},{"1":"Departure_Arrival_time_convenient","2":"0.0459484483394978"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p><strong>Findings from Cramer results for ordinal and categorical variables:</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>Inflight_entertainment</code> seems to have very strong relationship (0.63) with <code>Satisfaction</code> (target variable), followed by <code>Seat_comfort</code>, <code>Ease_of_Onlinebooking</code>, <code>Online_support</code> and <code>Onboard_service</code>. These variables might be relatively strong predictors for customers’ satisfaction.</li>
+</ol>
+<hr />
+</div>
+<div id="investigate-the-age-variable." class="section level3">
+<h3>3.5 Investigate the ‘Age’ variable.</h3>
+<pre class="r"><code># Output the cumulative percentage of customers with different age. 
+df_falconAirlines %&gt;% 
+    group_by(Age) %&gt;% 
+    summarise(Percent = n() / nrow(df_falconAirlines)) %&gt;% 
+    ungroup() %&gt;% 
+    mutate(Cumsum = scales::percent(cumsum(Percent)), 
+           Percent = scales::percent(Percent)) %&gt;% 
+    filter(Age &lt;= 21) </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Age"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Percent"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Cumsum"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"7","2":"0.51%","3":"0.5%"},{"1":"8","2":"0.60%","3":"1.1%"},{"1":"9","2":"0.68%","3":"1.8%"},{"1":"10","2":"0.62%","3":"2.4%"},{"1":"11","2":"0.64%","3":"3.0%"},{"1":"12","2":"0.61%","3":"3.7%"},{"1":"13","2":"0.62%","3":"4.3%"},{"1":"14","2":"0.66%","3":"4.9%"},{"1":"15","2":"0.78%","3":"5.7%"},{"1":"16","2":"0.90%","3":"6.6%"},{"1":"17","2":"0.94%","3":"7.6%"},{"1":"18","2":"0.93%","3":"8.5%"},{"1":"19","2":"0.89%","3":"9.4%"},{"1":"20","2":"1.49%","3":"10.9%"},{"1":"21","2":"1.46%","3":"12.3%"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Looking at the table below, there are about 8.5% of the customers who are age 18 or below. We want to focus on customers who have the purchasing/decision power to make a purchase. Hence, I will remove respondents who are aged 18 or below as their preferences and opinions provide little value to the business, assuming that these respondents do not or have little purchasing/decision power.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="investigate-the-cost-of-customer-churn." class="section level2">
+<h2>4 Investigate the cost of customer churn.</h2>
+<pre class="r"><code>df_falconAirlines %&gt;% 
+    compute_customer_life_time_value(travel_type_colname=TypeTravel) %&gt;% 
+    life_time_value_by_customer_type(Satisfaction, CustomerType)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Satisfaction"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["total_customer_life_time_value"],"name":[3],"type":["chr"],"align":["left"]}],"data":[{"1":"neutral_or dissatisfied","2":"disloyal_customer","3":"$23,957,000"},{"1":"neutral_or dissatisfied","2":"loyal_customer","3":"$38,268,350"},{"1":"neutral_or dissatisfied","2":"NA","3":"$7,683,650"},{"1":"satisfied","2":"disloyal_customer","3":"$9,029,150"},{"1":"satisfied","2":"loyal_customer","3":"$93,829,650"},{"1":"satisfied","2":"NA","3":"$11,864,000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>df_falconAirlines %&gt;% 
+    compute_customer_life_time_value(travel_type_colname=TypeTravel) %&gt;% 
+    life_time_value_by_customer_type(Satisfaction, CustomerType, TypeTravel) </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Satisfaction"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["TypeTravel"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["total_customer_life_time_value"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"neutral_or dissatisfied","2":"disloyal_customer","3":"business_travel","4":"$22,931,550"},{"1":"neutral_or dissatisfied","2":"disloyal_customer","3":"personal_travel","4":"$52,950"},{"1":"neutral_or dissatisfied","2":"disloyal_customer","3":"NA","4":"$972,500"},{"1":"neutral_or dissatisfied","2":"loyal_customer","3":"business_travel","4":"$29,359,650"},{"1":"neutral_or dissatisfied","2":"loyal_customer","3":"personal_travel","4":"$6,861,000"},{"1":"neutral_or dissatisfied","2":"loyal_customer","3":"NA","4":"$2,047,700"},{"1":"neutral_or dissatisfied","2":"NA","3":"business_travel","4":"$6,808,650"},{"1":"neutral_or dissatisfied","2":"NA","3":"personal_travel","4":"$875,000"},{"1":"satisfied","2":"disloyal_customer","3":"business_travel","4":"$8,676,900"},{"1":"satisfied","2":"disloyal_customer","3":"personal_travel","4":"$9,750"},{"1":"satisfied","2":"disloyal_customer","3":"NA","4":"$342,500"},{"1":"satisfied","2":"loyal_customer","3":"business_travel","4":"$83,569,350"},{"1":"satisfied","2":"loyal_customer","3":"personal_travel","4":"$5,996,450"},{"1":"satisfied","2":"loyal_customer","3":"NA","4":"$4,263,850"},{"1":"satisfied","2":"NA","3":"business_travel","4":"$11,116,350"},{"1":"satisfied","2":"NA","3":"personal_travel","4":"$747,650"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The life time value cost of losing the entire loyal customers who are neutral/dissatisfied is about 38.3 million. As for the “NA” customer type who are neutral or dissatisfied, assuming there are 50% of loyal customers, the life time value cost would be about 3.8 million. Total would be about 42.1 million.</li>
+<li>Given the entire loyal customers who are neutral/dissatisfied, the life time value cost of losing the Business Travelers is about 29.4 million compare to Personal Travellers, which is 6.9 million. While the “NA” (unknown travel type) costs about 2 million. Given the entire “NA” customer type, assuming there are 50% of loyal customers, the total life time value cost of losing the Business and Personal Travelers would be about 3.85 million.</li>
+</ol>
+<p>I will not be focusing on the life time value cost for the disloyal customers since they do not stick with FalconAirlines unless our project goal includes turning the disloyal customers into loyal via customer satisfaction.</p>
+<p>I will later explore with the important variables to estimate the change in proportion of customer feeling satisfied and potential reduction in customer churn cost after building the model.</p>
+<hr />
+</div>
+<div id="data-preprocessing." class="section level2">
+<h2>5 Data Preprocessing.</h2>
+<div id="prepare-train-and-test-set." class="section level3">
+<h3>5.1 Prepare TRAIN and TEST set.</h3>
+<pre class="r"><code>set.seed(seed=5)
+split_obj = rsample::initial_split(df_falconAirlines, prop=0.70)
+
+# Split the data.
+df_train = training(split_obj)
+df_test = testing(split_obj)</code></pre>
+<pre class="r"><code># Check the value proportion of the target variable. 
+list(
+    TRAIN = df_train$Satisfaction %&gt;% summary() / nrow(df_train), 
+    TEST = df_test$Satisfaction %&gt;% summary() / nrow(df_test)
+) </code></pre>
+<pre><code>## $TRAIN
+## neutral_or dissatisfied               satisfied 
+##                0.454904                0.545096 
+## 
+## $TEST
+## neutral_or dissatisfied               satisfied 
+##               0.4474794               0.5525206</code></pre>
+<pre class="r"><code># ---------------------------------------------
+# Prepare the variables. 
+# ---------------------------------------------
+
+# To indicate which variables will be used for Bagging Imputation. 
+impute_with_vars = df_falconAirlines %&gt;% 
+    select(-CustomerId, -Satisfaction, -Gender, -ArrivalDelayin_Mins, -Flight_Distance) %&gt;% 
+    colnames()
+
+# To indicate which variables should be processed. 
+remove_vars = c(&#39;ArrivalDelayin_Mins&#39;, &#39;Flight_Distance&#39;, &#39;Gender&#39;)
+missing_vars = c(&#39;CustomerType&#39;, &#39;TypeTravel&#39;, &#39;Departure_Arrival_time_convenient&#39;, 
+                 &#39;Onboard_service&#39;, &#39;Food_drink&#39;)
+binning_vars = c(&#39;Age&#39;)
+dummy_vars = c(&#39;CustomerType&#39;, &#39;TypeTravel&#39;, &#39;Age&#39;)
+dist_transform_vars = c(&#39;DepartureDelayin_Mins&#39;) 
+normalise_vars = c(&#39;DepartureDelayin_Mins&#39;) 
+
+# ---------------------------------------------
+# Construct processing pipeline.
+# ---------------------------------------------
+
+recipe_obj = recipe(Satisfaction ~ ., data=df_train) %&gt;% 
+    step_rm(remove_vars) %&gt;% 
+    step_filter(Age &gt; 18) %&gt;% 
+    step_bagimpute(missing_vars, impute_with=impute_with_vars, seed_val=5) %&gt;% 
+    step_mutate_at(binning_vars, fn=binning) %&gt;% 
+    step_dummy(dummy_vars) %&gt;% 
+    step_rename_at(all_predictors(), fn= ~ str_replace_all(., &#39;\\.&#39;, &#39;_&#39;)) %&gt;% 
+    step_mutate_at(all_predictors(), fn=as.numeric) %&gt;% 
+    step_YeoJohnson(dist_transform_vars) %&gt;% 
+    step_normalize(normalise_vars) %&gt;% 
+    prep() 
+
+# ---------------------------------------------
+# Execute the pipeline. 
+# ---------------------------------------------
+ 
+# Keep the customer ID so I can identify the row later. 
+
+df_train_processed_with_id = recipe_obj %&gt;%
+    juice() 
+
+df_test_processed_with_id = recipe_obj %&gt;% 
+    bake(new_data=df_test) </code></pre>
+<pre class="r"><code># Remove customer ID when it is used for model training. 
+
+df_train_processed = df_train_processed_with_id %&gt;% 
+    select(-CustomerId)
+
+df_test_processed = df_test_processed_with_id %&gt;% 
+    select(-CustomerId)</code></pre>
+<pre class="r"><code># Check the processed data. 
+df_train_processed %&gt;% 
+    summary()</code></pre>
+<pre><code>##  Gate_location    Seat_comfort   Departure_Arrival_time_convenient
+##  Min.   :2.000   Min.   :1.000   Min.   :1.000                    
+##  1st Qu.:3.000   1st Qu.:3.000   1st Qu.:3.000                    
+##  Median :4.000   Median :4.000   Median :4.000                    
+##  Mean   :3.988   Mean   :3.838   Mean   :3.968                    
+##  3rd Qu.:5.000   3rd Qu.:5.000   3rd Qu.:5.000                    
+##  Max.   :6.000   Max.   :6.000   Max.   :6.000                    
+##    Food_drink    Inflightwifi_service Inflight_entertainment
+##  Min.   :1.000   Min.   :1.000        Min.   :1.000         
+##  1st Qu.:3.000   1st Qu.:3.000        1st Qu.:3.000         
+##  Median :4.000   Median :4.000        Median :5.000         
+##  Mean   :3.856   Mean   :4.256        Mean   :4.409         
+##  3rd Qu.:5.000   3rd Qu.:5.000        3rd Qu.:5.000         
+##  Max.   :6.000   Max.   :6.000        Max.   :6.000         
+##  Online_support  Ease_of_Onlinebooking Onboard_service
+##  Min.   :1.000   Min.   :1.000         Min.   :1.000  
+##  1st Qu.:4.000   1st Qu.:3.000         1st Qu.:4.000  
+##  Median :5.000   Median :5.000         Median :5.000  
+##  Mean   :4.539   Mean   :4.489         Mean   :4.475  
+##  3rd Qu.:6.000   3rd Qu.:6.000         3rd Qu.:5.000  
+##  Max.   :6.000   Max.   :6.000         Max.   :6.000  
+##  Leg_room_service Baggage_handling Checkin_service  Cleanliness   
+##  Min.   :1.000    Min.   :2.000    Min.   :1.000   Min.   :1.000  
+##  1st Qu.:3.000    1st Qu.:4.000    1st Qu.:4.000   1st Qu.:4.000  
+##  Median :5.000    Median :5.000    Median :4.000   Median :5.000  
+##  Mean   :4.496    Mean   :4.693    Mean   :4.341   Mean   :4.704  
+##  3rd Qu.:6.000    3rd Qu.:6.000    3rd Qu.:5.000   3rd Qu.:6.000  
+##  Max.   :6.000    Max.   :6.000    Max.   :6.000   Max.   :6.000  
+##  Online_boarding     Class       DepartureDelayin_Mins
+##  Min.   :1.000   Min.   :1.000   Min.   :-0.8303      
+##  1st Qu.:3.000   1st Qu.:1.000   1st Qu.:-0.8303      
+##  Median :5.000   Median :3.000   Median :-0.8303      
+##  Mean   :4.366   Mean   :2.083   Mean   : 0.0000      
+##  3rd Qu.:5.000   3rd Qu.:3.000   3rd Qu.: 1.1222      
+##  Max.   :6.000   Max.   :3.000   Max.   : 1.8065      
+##                   Satisfaction   CustomerType_loyal_customer
+##  neutral_or dissatisfied:25854   Min.   :0.000              
+##  satisfied              :32438   1st Qu.:1.000              
+##                                  Median :1.000              
+##                                  Mean   :0.815              
+##                                  3rd Qu.:1.000              
+##                                  Max.   :1.000              
+##  TypeTravel_personal_travel  Age_X_20_25_     Age_X_25_30_   
+##  Min.   :0.000              Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.000              1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median :0.000              Median :0.0000   Median :0.0000  
+##  Mean   :0.271              Mean   :0.1054   Mean   :0.1153  
+##  3rd Qu.:1.000              3rd Qu.:0.0000   3rd Qu.:0.0000  
+##  Max.   :1.000              Max.   :1.0000   Max.   :1.0000  
+##   Age_X_30_35_      Age_X_35_40_     Age_X_40_45_   
+##  Min.   :0.00000   Min.   :0.0000   Min.   :0.0000  
+##  1st Qu.:0.00000   1st Qu.:0.0000   1st Qu.:0.0000  
+##  Median :0.00000   Median :0.0000   Median :0.0000  
+##  Mean   :0.09255   Mean   :0.1248   Mean   :0.1309  
+##  3rd Qu.:0.00000   3rd Qu.:0.0000   3rd Qu.:0.0000  
+##  Max.   :1.00000   Max.   :1.0000   Max.   :1.0000  
+##   Age_X_45_50_     Age_X_50_55_     Age_X_55_60_    
+##  Min.   :0.0000   Min.   :0.0000   Min.   :0.00000  
+##  1st Qu.:0.0000   1st Qu.:0.0000   1st Qu.:0.00000  
+##  Median :0.0000   Median :0.0000   Median :0.00000  
+##  Mean   :0.1183   Mean   :0.1058   Mean   :0.09494  
+##  3rd Qu.:0.0000   3rd Qu.:0.0000   3rd Qu.:0.00000  
+##  Max.   :1.0000   Max.   :1.0000   Max.   :1.00000  
+##   Age_X_60_65_     Age_X_65_above_  
+##  Min.   :0.00000   Min.   :0.00000  
+##  1st Qu.:0.00000   1st Qu.:0.00000  
+##  Median :0.00000   Median :0.00000  
+##  Mean   :0.05239   Mean   :0.05004  
+##  3rd Qu.:0.00000   3rd Qu.:0.00000  
+##  Max.   :1.00000   Max.   :1.00000</code></pre>
+<hr />
+</div>
+<div id="double-check-if-null-exists." class="section level3">
+<h3>5.2 Double check if null exists.</h3>
+<pre class="r"><code># Check null proportion for each variable.
+df_train_processed %&gt;% 
+    summarise_all(~ sum(is.na(.)) / length(.) * 100) %&gt;% 
+    gather() %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       key                                 value
+##  [1,] &quot;Gate_location&quot;                     &quot;0&quot;  
+##  [2,] &quot;Seat_comfort&quot;                      &quot;0&quot;  
+##  [3,] &quot;Departure_Arrival_time_convenient&quot; &quot;0&quot;  
+##  [4,] &quot;Food_drink&quot;                        &quot;0&quot;  
+##  [5,] &quot;Inflightwifi_service&quot;              &quot;0&quot;  
+##  [6,] &quot;Inflight_entertainment&quot;            &quot;0&quot;  
+##  [7,] &quot;Online_support&quot;                    &quot;0&quot;  
+##  [8,] &quot;Ease_of_Onlinebooking&quot;             &quot;0&quot;  
+##  [9,] &quot;Onboard_service&quot;                   &quot;0&quot;  
+## [10,] &quot;Leg_room_service&quot;                  &quot;0&quot;  
+## [11,] &quot;Baggage_handling&quot;                  &quot;0&quot;  
+## [12,] &quot;Checkin_service&quot;                   &quot;0&quot;  
+## [13,] &quot;Cleanliness&quot;                       &quot;0&quot;  
+## [14,] &quot;Online_boarding&quot;                   &quot;0&quot;  
+## [15,] &quot;Class&quot;                             &quot;0&quot;  
+## [16,] &quot;DepartureDelayin_Mins&quot;             &quot;0&quot;  
+## [17,] &quot;Satisfaction&quot;                      &quot;0&quot;  
+## [18,] &quot;CustomerType_loyal_customer&quot;       &quot;0&quot;  
+## [19,] &quot;TypeTravel_personal_travel&quot;        &quot;0&quot;  
+## [20,] &quot;Age_X_20_25_&quot;                      &quot;0&quot;  
+## [21,] &quot;Age_X_25_30_&quot;                      &quot;0&quot;  
+## [22,] &quot;Age_X_30_35_&quot;                      &quot;0&quot;  
+## [23,] &quot;Age_X_35_40_&quot;                      &quot;0&quot;  
+## [24,] &quot;Age_X_40_45_&quot;                      &quot;0&quot;  
+## [25,] &quot;Age_X_45_50_&quot;                      &quot;0&quot;  
+## [26,] &quot;Age_X_50_55_&quot;                      &quot;0&quot;  
+## [27,] &quot;Age_X_55_60_&quot;                      &quot;0&quot;  
+## [28,] &quot;Age_X_60_65_&quot;                      &quot;0&quot;  
+## [29,] &quot;Age_X_65_above_&quot;                   &quot;0&quot;</code></pre>
+<pre class="r"><code># Check null proportion for each variable.
+df_test_processed %&gt;% 
+    summarise_all(~ sum(is.na(.)) / length(.) * 100) %&gt;% 
+    gather() %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       key                                 value
+##  [1,] &quot;Gate_location&quot;                     &quot;0&quot;  
+##  [2,] &quot;Seat_comfort&quot;                      &quot;0&quot;  
+##  [3,] &quot;Departure_Arrival_time_convenient&quot; &quot;0&quot;  
+##  [4,] &quot;Food_drink&quot;                        &quot;0&quot;  
+##  [5,] &quot;Inflightwifi_service&quot;              &quot;0&quot;  
+##  [6,] &quot;Inflight_entertainment&quot;            &quot;0&quot;  
+##  [7,] &quot;Online_support&quot;                    &quot;0&quot;  
+##  [8,] &quot;Ease_of_Onlinebooking&quot;             &quot;0&quot;  
+##  [9,] &quot;Onboard_service&quot;                   &quot;0&quot;  
+## [10,] &quot;Leg_room_service&quot;                  &quot;0&quot;  
+## [11,] &quot;Baggage_handling&quot;                  &quot;0&quot;  
+## [12,] &quot;Checkin_service&quot;                   &quot;0&quot;  
+## [13,] &quot;Cleanliness&quot;                       &quot;0&quot;  
+## [14,] &quot;Online_boarding&quot;                   &quot;0&quot;  
+## [15,] &quot;Class&quot;                             &quot;0&quot;  
+## [16,] &quot;DepartureDelayin_Mins&quot;             &quot;0&quot;  
+## [17,] &quot;Satisfaction&quot;                      &quot;0&quot;  
+## [18,] &quot;CustomerType_loyal_customer&quot;       &quot;0&quot;  
+## [19,] &quot;TypeTravel_personal_travel&quot;        &quot;0&quot;  
+## [20,] &quot;Age_X_20_25_&quot;                      &quot;0&quot;  
+## [21,] &quot;Age_X_25_30_&quot;                      &quot;0&quot;  
+## [22,] &quot;Age_X_30_35_&quot;                      &quot;0&quot;  
+## [23,] &quot;Age_X_35_40_&quot;                      &quot;0&quot;  
+## [24,] &quot;Age_X_40_45_&quot;                      &quot;0&quot;  
+## [25,] &quot;Age_X_45_50_&quot;                      &quot;0&quot;  
+## [26,] &quot;Age_X_50_55_&quot;                      &quot;0&quot;  
+## [27,] &quot;Age_X_55_60_&quot;                      &quot;0&quot;  
+## [28,] &quot;Age_X_60_65_&quot;                      &quot;0&quot;  
+## [29,] &quot;Age_X_65_above_&quot;                   &quot;0&quot;</code></pre>
+</div>
+</div>
+<div id="model-training-and-evaluation." class="section level2">
+<h2>6 Model training and evaluation.</h2>
+<div id="train-logistic-model." class="section level3">
+<h3>6.1 Train Logistic model.</h3>
+<pre class="r"><code>model_log_glm = logistic_reg(mode=&quot;classification&quot;, penalty=NULL, mixture=NULL) %&gt;% 
+    set_engine(&quot;glm&quot;) %&gt;%
+    fit(Satisfaction ~ ., data=df_train_processed)
+
+# Sort the important variables in descending order. 
+broom::tidy(model_log_glm) %&gt;% 
+    mutate(estimate_abs = abs(estimate)) %&gt;% 
+    arrange(desc(estimate_abs)) %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       term                                estimate       
+##  [1,] &quot;(Intercept)&quot;                       &quot;-11.476577680&quot;
+##  [2,] &quot;CustomerType_loyal_customer&quot;       &quot;  2.023262347&quot;
+##  [3,] &quot;TypeTravel_personal_travel&quot;        &quot; -0.763665758&quot;
+##  [4,] &quot;Inflight_entertainment&quot;            &quot;  0.713533661&quot;
+##  [5,] &quot;Age_X_20_25_&quot;                      &quot;  0.604837365&quot;
+##  [6,] &quot;Class&quot;                             &quot;  0.349075526&quot;
+##  [7,] &quot;Age_X_65_above_&quot;                   &quot; -0.342270381&quot;
+##  [8,] &quot;Onboard_service&quot;                   &quot;  0.307492901&quot;
+##  [9,] &quot;Checkin_service&quot;                   &quot;  0.298093320&quot;
+## [10,] &quot;Seat_comfort&quot;                      &quot;  0.293433924&quot;
+## [11,] &quot;Leg_room_service&quot;                  &quot;  0.244499369&quot;
+## [12,] &quot;Ease_of_Onlinebooking&quot;             &quot;  0.227079970&quot;
+## [13,] &quot;Departure_Arrival_time_convenient&quot; &quot; -0.223489943&quot;
+## [14,] &quot;Food_drink&quot;                        &quot; -0.193568741&quot;
+## [15,] &quot;DepartureDelayin_Mins&quot;             &quot; -0.181473436&quot;
+## [16,] &quot;Online_boarding&quot;                   &quot;  0.159139122&quot;
+## [17,] &quot;Age_X_35_40_&quot;                      &quot; -0.149635269&quot;
+## [18,] &quot;Age_X_30_35_&quot;                      &quot; -0.135231098&quot;
+## [19,] &quot;Gate_location&quot;                     &quot;  0.128356698&quot;
+## [20,] &quot;Age_X_40_45_&quot;                      &quot;  0.119893498&quot;
+## [21,] &quot;Age_X_60_65_&quot;                      &quot; -0.118723095&quot;
+## [22,] &quot;Age_X_55_60_&quot;                      &quot;  0.100678631&quot;
+## [23,] &quot;Online_support&quot;                    &quot;  0.098306492&quot;
+## [24,] &quot;Baggage_handling&quot;                  &quot;  0.093318919&quot;
+## [25,] &quot;Cleanliness&quot;                       &quot;  0.093218231&quot;
+## [26,] &quot;Inflightwifi_service&quot;              &quot; -0.065751043&quot;
+## [27,] &quot;Age_X_45_50_&quot;                      &quot;  0.029825331&quot;
+## [28,] &quot;Age_X_50_55_&quot;                      &quot;  0.016144614&quot;
+## [29,] &quot;Age_X_25_30_&quot;                      &quot;  0.006496901&quot;
+##       std.error    statistic      p.value         estimate_abs  
+##  [1,] &quot;0.15918237&quot; &quot;-72.09704018&quot; &quot; 0.000000e+00&quot; &quot;11.476577680&quot;
+##  [2,] &quot;0.03809987&quot; &quot; 53.10418459&quot; &quot; 0.000000e+00&quot; &quot; 2.023262347&quot;
+##  [3,] &quot;0.03478061&quot; &quot;-21.95665126&quot; &quot;7.481345e-107&quot; &quot; 0.763665758&quot;
+##  [4,] &quot;0.01227181&quot; &quot; 58.14412491&quot; &quot; 0.000000e+00&quot; &quot; 0.713533661&quot;
+##  [5,] &quot;0.11856182&quot; &quot;  5.10145129&quot; &quot; 3.370588e-07&quot; &quot; 0.604837365&quot;
+##  [6,] &quot;0.01560330&quot; &quot; 22.37190085&quot; &quot;7.391911e-111&quot; &quot; 0.349075526&quot;
+##  [7,] &quot;0.12275670&quot; &quot; -2.78820128&quot; &quot; 5.300160e-03&quot; &quot; 0.342270381&quot;
+##  [8,] &quot;0.01238978&quot; &quot; 24.81827407&quot; &quot;5.692902e-136&quot; &quot; 0.307492901&quot;
+##  [9,] &quot;0.01027447&quot; &quot; 29.01300467&quot; &quot;4.510022e-185&quot; &quot; 0.298093320&quot;
+## [10,] &quot;0.01375993&quot; &quot; 21.32524085&quot; &quot;6.621196e-101&quot; &quot; 0.293433924&quot;
+## [11,] &quot;0.01048993&quot; &quot; 23.30800929&quot; &quot;3.677164e-120&quot; &quot; 0.244499369&quot;
+## [12,] &quot;0.01712689&quot; &quot; 13.25868114&quot; &quot; 4.019016e-40&quot; &quot; 0.227079970&quot;
+## [13,] &quot;0.01024430&quot; &quot;-21.81602471&quot; &quot;1.634671e-105&quot; &quot; 0.223489943&quot;
+## [14,] &quot;0.01414826&quot; &quot;-13.68145428&quot; &quot; 1.310453e-42&quot; &quot; 0.193568741&quot;
+## [15,] &quot;0.01182124&quot; &quot;-15.35147320&quot; &quot; 3.462335e-53&quot; &quot; 0.181473436&quot;
+## [16,] &quot;0.01445829&quot; &quot; 11.00677619&quot; &quot; 3.544612e-28&quot; &quot; 0.159139122&quot;
+## [17,] &quot;0.11763886&quot; &quot; -1.27198845&quot; &quot; 2.033772e-01&quot; &quot; 0.149635269&quot;
+## [18,] &quot;0.11907163&quot; &quot; -1.13571221&quot; &quot; 2.560770e-01&quot; &quot; 0.135231098&quot;
+## [19,] &quot;0.01142551&quot; &quot; 11.23421912&quot; &quot; 2.769315e-29&quot; &quot; 0.128356698&quot;
+## [20,] &quot;0.11800470&quot; &quot;  1.01600617&quot; &quot; 3.096264e-01&quot; &quot; 0.119893498&quot;
+## [21,] &quot;0.12321060&quot; &quot; -0.96357860&quot; &quot; 3.352572e-01&quot; &quot; 0.118723095&quot;
+## [22,] &quot;0.12004056&quot; &quot;  0.83870510&quot; &quot; 4.016348e-01&quot; &quot; 0.100678631&quot;
+## [23,] &quot;0.01327609&quot; &quot;  7.40477835&quot; &quot; 1.313697e-13&quot; &quot; 0.098306492&quot;
+## [24,] &quot;0.01388335&quot; &quot;  6.72164424&quot; &quot; 1.796852e-11&quot; &quot; 0.093318919&quot;
+## [25,] &quot;0.01449605&quot; &quot;  6.43059380&quot; &quot; 1.271064e-10&quot; &quot; 0.093218231&quot;
+## [26,] &quot;0.01288318&quot; &quot; -5.10363358&quot; &quot; 3.331931e-07&quot; &quot; 0.065751043&quot;
+## [27,] &quot;0.11847877&quot; &quot;  0.25173567&quot; &quot; 8.012454e-01&quot; &quot; 0.029825331&quot;
+## [28,] &quot;0.11919288&quot; &quot;  0.13544949&quot; &quot; 8.922565e-01&quot; &quot; 0.016144614&quot;
+## [29,] &quot;0.11802736&quot; &quot;  0.05504572&quot; &quot; 9.561020e-01&quot; &quot; 0.006496901&quot;</code></pre>
+<hr />
+<div id="adjust-the-model-parameter." class="section level4">
+<h4>6.1.1 Adjust the model parameter.</h4>
+<pre class="r"><code># Adjust the model parameter.  
+model_log_glm_adjusted = MASS::stepAIC(stats::glm(Satisfaction ~ ., 
+                                                  family=stats::binomial, 
+                                                  data=df_train_processed), 
+                                       direction=&quot;both&quot;, k=21)</code></pre>
+<pre><code>## Start:  AIC=46019.71
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_25_30_ + 
+##     Age_X_30_35_ + Age_X_35_40_ + Age_X_40_45_ + Age_X_45_50_ + 
+##     Age_X_50_55_ + Age_X_55_60_ + Age_X_60_65_ + Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_25_30_                       1    45411 45999
+## - Age_X_50_55_                       1    45411 45999
+## - Age_X_45_50_                       1    45411 45999
+## - Age_X_55_60_                       1    45411 45999
+## - Age_X_60_65_                       1    45412 46000
+## - Age_X_40_45_                       1    45412 46000
+## - Age_X_30_35_                       1    45412 46000
+## - Age_X_35_40_                       1    45412 46000
+## - Age_X_65_above_                    1    45418 46006
+## &lt;none&gt;                                    45411 46020
+## - Age_X_20_25_                       1    45437 46025
+## - Inflightwifi_service               1    45437 46025
+## - Cleanliness                        1    45452 46040
+## - Baggage_handling                   1    45456 46044
+## - Online_support                     1    45465 46053
+## - Online_boarding                    1    45532 46120
+## - Gate_location                      1    45537 46125
+## - Ease_of_Onlinebooking              1    45587 46175
+## - Food_drink                         1    45599 46187
+## - DepartureDelayin_Mins              1    45648 46236
+## - Seat_comfort                       1    45874 46462
+## - TypeTravel_personal_travel         1    45896 46484
+## - Departure_Arrival_time_convenient  1    45896 46484
+## - Class                              1    45916 46504
+## - Leg_room_service                   1    45956 46544
+## - Onboard_service                    1    46037 46625
+## - Checkin_service                    1    46273 46861
+## - CustomerType_loyal_customer        1    48524 49112
+## - Inflight_entertainment             1    49154 49742
+## 
+## Step:  AIC=45998.72
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_30_35_ + 
+##     Age_X_35_40_ + Age_X_40_45_ + Age_X_45_50_ + Age_X_50_55_ + 
+##     Age_X_55_60_ + Age_X_60_65_ + Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_50_55_                       1    45411 45978
+## - Age_X_45_50_                       1    45411 45978
+## - Age_X_55_60_                       1    45414 45981
+## - Age_X_60_65_                       1    45415 45982
+## - Age_X_40_45_                       1    45416 45983
+## - Age_X_30_35_                       1    45418 45985
+## - Age_X_35_40_                       1    45422 45989
+## &lt;none&gt;                                    45411 45999
+## - Inflightwifi_service               1    45437 46004
+## - Age_X_65_above_                    1    45444 46011
+## - Cleanliness                        1    45452 46019
+## + Age_X_25_30_                       1    45411 46020
+## - Baggage_handling                   1    45456 46023
+## - Online_support                     1    45465 46032
+## - Online_boarding                    1    45532 46099
+## - Gate_location                      1    45537 46104
+## - Age_X_20_25_                       1    45564 46131
+## - Ease_of_Onlinebooking              1    45587 46154
+## - Food_drink                         1    45599 46166
+## - DepartureDelayin_Mins              1    45648 46215
+## - Seat_comfort                       1    45874 46441
+## - Departure_Arrival_time_convenient  1    45896 46463
+## - TypeTravel_personal_travel         1    45896 46463
+## - Class                              1    45916 46483
+## - Leg_room_service                   1    45956 46523
+## - Onboard_service                    1    46037 46604
+## - Checkin_service                    1    46273 46840
+## - CustomerType_loyal_customer        1    48530 49097
+## - Inflight_entertainment             1    49154 49721
+## 
+## Step:  AIC=45977.76
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_30_35_ + 
+##     Age_X_35_40_ + Age_X_40_45_ + Age_X_45_50_ + Age_X_55_60_ + 
+##     Age_X_60_65_ + Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_45_50_                       1    45411 45957
+## - Age_X_55_60_                       1    45414 45960
+## - Age_X_60_65_                       1    45416 45962
+## - Age_X_40_45_                       1    45417 45963
+## - Age_X_30_35_                       1    45421 45967
+## - Age_X_35_40_                       1    45426 45972
+## &lt;none&gt;                                    45411 45978
+## - Inflightwifi_service               1    45437 45983
+## - Age_X_65_above_                    1    45451 45997
+## - Cleanliness                        1    45452 45998
+## + Age_X_50_55_                       1    45411 45999
+## + Age_X_25_30_                       1    45411 45999
+## - Baggage_handling                   1    45456 46002
+## - Online_support                     1    45466 46012
+## - Online_boarding                    1    45532 46078
+## - Gate_location                      1    45538 46084
+## - Ease_of_Onlinebooking              1    45587 46133
+## - Age_X_20_25_                       1    45592 46138
+## - Food_drink                         1    45600 46146
+## - DepartureDelayin_Mins              1    45648 46194
+## - Seat_comfort                       1    45874 46420
+## - Departure_Arrival_time_convenient  1    45896 46442
+## - TypeTravel_personal_travel         1    45898 46444
+## - Class                              1    45916 46462
+## - Leg_room_service                   1    45956 46502
+## - Onboard_service                    1    46037 46583
+## - Checkin_service                    1    46273 46819
+## - CustomerType_loyal_customer        1    48681 49227
+## - Inflight_entertainment             1    49159 49705
+## 
+## Step:  AIC=45956.95
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_30_35_ + 
+##     Age_X_35_40_ + Age_X_40_45_ + Age_X_55_60_ + Age_X_60_65_ + 
+##     Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_55_60_                       1    45414 45939
+## - Age_X_60_65_                       1    45417 45942
+## - Age_X_40_45_                       1    45418 45943
+## - Age_X_30_35_                       1    45423 45948
+## - Age_X_35_40_                       1    45429 45954
+## &lt;none&gt;                                    45411 45957
+## - Inflightwifi_service               1    45437 45962
+## - Cleanliness                        1    45452 45977
+## + Age_X_45_50_                       1    45411 45978
+## + Age_X_25_30_                       1    45411 45978
+## + Age_X_50_55_                       1    45411 45978
+## - Baggage_handling                   1    45456 45981
+## - Age_X_65_above_                    1    45456 45981
+## - Online_support                     1    45466 45991
+## - Online_boarding                    1    45532 46057
+## - Gate_location                      1    45538 46063
+## - Ease_of_Onlinebooking              1    45587 46112
+## - Food_drink                         1    45600 46125
+## - Age_X_20_25_                       1    45605 46130
+## - DepartureDelayin_Mins              1    45648 46173
+## - Seat_comfort                       1    45874 46399
+## - Departure_Arrival_time_convenient  1    45896 46421
+## - TypeTravel_personal_travel         1    45900 46425
+## - Class                              1    45917 46442
+## - Leg_room_service                   1    45957 46482
+## - Onboard_service                    1    46038 46563
+## - Checkin_service                    1    46273 46798
+## - CustomerType_loyal_customer        1    48735 49260
+## - Inflight_entertainment             1    49161 49686
+## 
+## Step:  AIC=45939.31
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_30_35_ + 
+##     Age_X_35_40_ + Age_X_40_45_ + Age_X_60_65_ + Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_40_45_                       1    45419 45923
+## - Age_X_60_65_                       1    45423 45927
+## - Age_X_30_35_                       1    45430 45934
+## &lt;none&gt;                                    45414 45939
+## - Age_X_35_40_                       1    45438 45942
+## - Inflightwifi_service               1    45441 45945
+## + Age_X_55_60_                       1    45411 45957
+## - Cleanliness                        1    45455 45959
+## + Age_X_25_30_                       1    45414 45960
+## + Age_X_50_55_                       1    45414 45960
+## + Age_X_45_50_                       1    45414 45960
+## - Baggage_handling                   1    45459 45963
+## - Age_X_65_above_                    1    45466 45970
+## - Online_support                     1    45470 45974
+## - Online_boarding                    1    45535 46039
+## - Gate_location                      1    45541 46045
+## - Ease_of_Onlinebooking              1    45590 46094
+## - Food_drink                         1    45603 46107
+## - Age_X_20_25_                       1    45606 46110
+## - DepartureDelayin_Mins              1    45651 46155
+## - Seat_comfort                       1    45877 46381
+## - Departure_Arrival_time_convenient  1    45899 46403
+## - TypeTravel_personal_travel         1    45904 46408
+## - Class                              1    45919 46423
+## - Leg_room_service                   1    45962 46466
+## - Onboard_service                    1    46043 46547
+## - Checkin_service                    1    46276 46780
+## - CustomerType_loyal_customer        1    48785 49289
+## - Inflight_entertainment             1    49167 49671
+## 
+## Step:  AIC=45923.28
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_30_35_ + 
+##     Age_X_35_40_ + Age_X_60_65_ + Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_60_65_                       1    45430 45913
+## - Age_X_30_35_                       1    45440 45923
+## &lt;none&gt;                                    45419 45923
+## - Inflightwifi_service               1    45446 45929
+## - Age_X_35_40_                       1    45449 45932
+## + Age_X_40_45_                       1    45414 45939
+## + Age_X_25_30_                       1    45417 45942
+## + Age_X_55_60_                       1    45418 45943
+## + Age_X_50_55_                       1    45418 45943
+## - Cleanliness                        1    45460 45943
+## + Age_X_45_50_                       1    45419 45944
+## - Baggage_handling                   1    45464 45947
+## - Online_support                     1    45476 45959
+## - Age_X_65_above_                    1    45478 45961
+## - Online_boarding                    1    45540 46023
+## - Gate_location                      1    45546 46029
+## - Ease_of_Onlinebooking              1    45595 46078
+## - Age_X_20_25_                       1    45606 46089
+## - Food_drink                         1    45609 46092
+## - DepartureDelayin_Mins              1    45656 46139
+## - Seat_comfort                       1    45882 46365
+## - Departure_Arrival_time_convenient  1    45903 46386
+## - TypeTravel_personal_travel         1    45914 46397
+## - Class                              1    45923 46406
+## - Leg_room_service                   1    45967 46450
+## - Onboard_service                    1    46048 46531
+## - Checkin_service                    1    46280 46763
+## - CustomerType_loyal_customer        1    48806 49289
+## - Inflight_entertainment             1    49173 49656
+## 
+## Step:  AIC=45912.93
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_30_35_ + 
+##     Age_X_35_40_ + Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_30_35_                       1    45447 45909
+## &lt;none&gt;                                    45430 45913
+## - Inflightwifi_service               1    45456 45918
+## - Age_X_35_40_                       1    45456 45918
+## + Age_X_60_65_                       1    45419 45923
+## + Age_X_40_45_                       1    45423 45927
+## + Age_X_55_60_                       1    45427 45931
+## + Age_X_25_30_                       1    45429 45933
+## - Cleanliness                        1    45471 45933
+## + Age_X_50_55_                       1    45430 45934
+## + Age_X_45_50_                       1    45430 45934
+## - Baggage_handling                   1    45475 45937
+## - Age_X_65_above_                    1    45483 45945
+## - Online_support                     1    45486 45948
+## - Online_boarding                    1    45551 46013
+## - Gate_location                      1    45557 46019
+## - Ease_of_Onlinebooking              1    45605 46067
+## - Food_drink                         1    45620 46082
+## - Age_X_20_25_                       1    45629 46091
+## - DepartureDelayin_Mins              1    45667 46129
+## - Seat_comfort                       1    45894 46356
+## - Departure_Arrival_time_convenient  1    45914 46376
+## - Class                              1    45937 46399
+## - TypeTravel_personal_travel         1    45939 46401
+## - Leg_room_service                   1    45977 46439
+## - Onboard_service                    1    46059 46521
+## - Checkin_service                    1    46293 46755
+## - CustomerType_loyal_customer        1    48809 49271
+## - Inflight_entertainment             1    49187 49649
+## 
+## Step:  AIC=45909.49
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_35_40_ + 
+##     Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## - Age_X_35_40_                       1    45468 45909
+## &lt;none&gt;                                    45447 45909
+## + Age_X_30_35_                       1    45430 45913
+## - Inflightwifi_service               1    45473 45914
+## + Age_X_40_45_                       1    45436 45919
+## + Age_X_60_65_                       1    45440 45923
+## + Age_X_55_60_                       1    45442 45925
+## - Cleanliness                        1    45487 45928
+## + Age_X_45_50_                       1    45447 45930
+## + Age_X_25_30_                       1    45447 45930
+## + Age_X_50_55_                       1    45447 45930
+## - Baggage_handling                   1    45492 45933
+## - Age_X_65_above_                    1    45495 45936
+## - Online_support                     1    45505 45946
+## - Online_boarding                    1    45567 46008
+## - Gate_location                      1    45575 46016
+## - Ease_of_Onlinebooking              1    45622 46063
+## - Food_drink                         1    45638 46079
+## - Age_X_20_25_                       1    45668 46109
+## - DepartureDelayin_Mins              1    45685 46126
+## - Seat_comfort                       1    45910 46351
+## - Departure_Arrival_time_convenient  1    45930 46371
+## - Class                              1    45949 46390
+## - TypeTravel_personal_travel         1    45960 46401
+## - Leg_room_service                   1    45999 46440
+## - Onboard_service                    1    46082 46523
+## - Checkin_service                    1    46311 46752
+## - CustomerType_loyal_customer        1    48831 49272
+## - Inflight_entertainment             1    49228 49669
+## 
+## Step:  AIC=45908.97
+## Satisfaction ~ Gate_location + Seat_comfort + Departure_Arrival_time_convenient + 
+##     Food_drink + Inflightwifi_service + Inflight_entertainment + 
+##     Online_support + Ease_of_Onlinebooking + Onboard_service + 
+##     Leg_room_service + Baggage_handling + Checkin_service + Cleanliness + 
+##     Online_boarding + Class + DepartureDelayin_Mins + CustomerType_loyal_customer + 
+##     TypeTravel_personal_travel + Age_X_20_25_ + Age_X_65_above_
+## 
+##                                     Df Deviance   AIC
+## &lt;none&gt;                                    45468 45909
+## + Age_X_35_40_                       1    45447 45909
+## + Age_X_40_45_                       1    45450 45912
+## - Inflightwifi_service               1    45494 45914
+## + Age_X_30_35_                       1    45456 45918
+## + Age_X_55_60_                       1    45460 45922
+## + Age_X_60_65_                       1    45463 45925
+## - Cleanliness                        1    45508 45928
+## + Age_X_45_50_                       1    45466 45928
+## + Age_X_25_30_                       1    45467 45929
+## + Age_X_50_55_                       1    45467 45929
+## - Age_X_65_above_                    1    45510 45930
+## - Baggage_handling                   1    45513 45933
+## - Online_support                     1    45526 45946
+## - Online_boarding                    1    45589 46009
+## - Gate_location                      1    45595 46015
+## - Ease_of_Onlinebooking              1    45641 46061
+## - Food_drink                         1    45655 46075
+## - DepartureDelayin_Mins              1    45704 46124
+## - Age_X_20_25_                       1    45717 46137
+## - Seat_comfort                       1    45926 46346
+## - Departure_Arrival_time_convenient  1    45952 46372
+## - Class                              1    45969 46389
+## - TypeTravel_personal_travel         1    45977 46397
+## - Leg_room_service                   1    46021 46441
+## - Onboard_service                    1    46102 46522
+## - Checkin_service                    1    46334 46754
+## - CustomerType_loyal_customer        1    48916 49336
+## - Inflight_entertainment             1    49252 49672</code></pre>
+<pre class="r"><code># Check multi-collinearity issue. 
+car::vif(model_log_glm_adjusted) %&gt;% 
+    enframe() %&gt;% 
+    arrange(desc(value))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["value"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Ease_of_Onlinebooking","2":"3.117965"},{"1":"Food_drink","2":"2.829662"},{"1":"Online_boarding","2":"2.352641"},{"1":"Seat_comfort","2":"2.312516"},{"1":"Cleanliness","2":"1.987374"},{"1":"Inflightwifi_service","2":"1.965089"},{"1":"Online_support","2":"1.932224"},{"1":"TypeTravel_personal_travel","2":"1.922827"},{"1":"Baggage_handling","2":"1.844862"},{"1":"Departure_Arrival_time_convenient","2":"1.789452"},{"1":"Onboard_service","2":"1.629319"},{"1":"Class","2":"1.603936"},{"1":"Gate_location","2":"1.600638"},{"1":"Inflight_entertainment","2":"1.491140"},{"1":"CustomerType_loyal_customer","2":"1.471225"},{"1":"Leg_room_service","2":"1.244740"},{"1":"Checkin_service","2":"1.168568"},{"1":"Age_X_20_25_","2":"1.150597"},{"1":"Age_X_65_above_","2":"1.035658"},{"1":"DepartureDelayin_Mins","2":"1.007144"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p>The table below shows the feature weights from the <code>Logistic</code> model after checking the VIF and adjusting the parameters with <code>StepAIC</code> by removing or adding the parameters to get the lowest AIC.</p>
+<pre class="r"><code># Finalised model. 
+# Preview the variable weights. 
+broom::tidy(model_log_glm_adjusted) %&gt;% 
+    mutate(estimate_abs = abs(estimate)) %&gt;% 
+    arrange(desc(estimate_abs)) %&gt;% 
+    select(term, estimate) %&gt;% 
+    mutate(estimate = round(estimate, 4)) %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       term                                estimate  
+##  [1,] &quot;(Intercept)&quot;                       &quot;-11.5219&quot;
+##  [2,] &quot;CustomerType_loyal_customer&quot;       &quot;  2.0452&quot;
+##  [3,] &quot;TypeTravel_personal_travel&quot;        &quot; -0.7768&quot;
+##  [4,] &quot;Inflight_entertainment&quot;            &quot;  0.7158&quot;
+##  [5,] &quot;Age_X_20_25_&quot;                      &quot;  0.6252&quot;
+##  [6,] &quot;Class&quot;                             &quot;  0.3470&quot;
+##  [7,] &quot;Age_X_65_above_&quot;                   &quot; -0.3296&quot;
+##  [8,] &quot;Onboard_service&quot;                   &quot;  0.3095&quot;
+##  [9,] &quot;Checkin_service&quot;                   &quot;  0.2986&quot;
+## [10,] &quot;Seat_comfort&quot;                      &quot;  0.2916&quot;
+## [11,] &quot;Leg_room_service&quot;                  &quot;  0.2462&quot;
+## [12,] &quot;Ease_of_Onlinebooking&quot;             &quot;  0.2250&quot;
+## [13,] &quot;Departure_Arrival_time_convenient&quot; &quot; -0.2233&quot;
+## [14,] &quot;Food_drink&quot;                        &quot; -0.1926&quot;
+## [15,] &quot;DepartureDelayin_Mins&quot;             &quot; -0.1810&quot;
+## [16,] &quot;Online_boarding&quot;                   &quot;  0.1587&quot;
+## [17,] &quot;Gate_location&quot;                     &quot;  0.1285&quot;
+## [18,] &quot;Online_support&quot;                    &quot;  0.1010&quot;
+## [19,] &quot;Baggage_handling&quot;                  &quot;  0.0934&quot;
+## [20,] &quot;Cleanliness&quot;                       &quot;  0.0917&quot;
+## [21,] &quot;Inflightwifi_service&quot;              &quot; -0.0651&quot;</code></pre>
+<hr />
+</div>
+<div id="evaluate-the-model-performance." class="section level4">
+<h4>6.1.2 Evaluate the model performance.</h4>
+<p>Compare the train and test result to see if it’s overfitting.</p>
+<pre class="r"><code># Train. 
+model_train_performance = df_train_processed %&gt;% 
+    evaluate_performance(model_log_glm_adjusted, &#39;Model GLM Logistic&#39;, predict_type=&#39;response&#39;)
+
+model_train_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model GLM Logistic","2":"0.8329616","3":"0.8111264","4":"0.6614002","5":"0.8135725","6":"0.9067672","7":"0.808695"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Test.
+model_test_performance = df_test_processed %&gt;% 
+    evaluate_performance(model_log_glm_adjusted, &#39;Model GLM Logistic&#39;, predict_type=&#39;response&#39;)
+
+model_test_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model GLM Logistic","2":"0.8324904","3":"0.8094085","4":"0.6600066","5":"0.8038646","6":"0.9057824","7":"0.8150294"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># View the confusion matrix.
+df_test_processed %&gt;% 
+    make_prediction(model_log_glm_adjusted, predict_type=&#39;response&#39;) %&gt;% 
+    conf_matrix_result()</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction     0     1
+##          0  8861  2162
+##          1  2011 11878
+##                                           
+##                Accuracy : 0.8325          
+##                  95% CI : (0.8278, 0.8371)
+##     No Information Rate : 0.5636          
+##     P-Value [Acc &gt; NIR] : &lt; 2e-16         
+##                                           
+##                   Kappa : 0.66            
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.02023         
+##                                           
+##             Sensitivity : 0.8460          
+##             Specificity : 0.8150          
+##          Pos Pred Value : 0.8552          
+##          Neg Pred Value : 0.8039          
+##              Prevalence : 0.5636          
+##          Detection Rate : 0.4768          
+##    Detection Prevalence : 0.5575          
+##       Balanced Accuracy : 0.8305          
+##                                           
+##        &#39;Positive&#39; Class : 1               
+## </code></pre>
+<hr />
+</div>
+</div>
+<div id="train-decision-tree-model." class="section level3">
+<h3>6.2 Train Decision Tree model.</h3>
+<pre class="r"><code>set.seed(5)
+model_tree_decision = decision_tree(mode=&quot;classification&quot;, cost_complexity=0, 
+                                    tree_depth=10, min_n=50) %&gt;%
+    set_engine(&quot;rpart&quot;) %&gt;%
+    fit(Satisfaction ~ ., data=df_train_processed)
+
+printcp(model_tree_decision$fit)</code></pre>
+<pre><code>## 
+## Classification tree:
+## rpart::rpart(formula = formula, data = data, cp = ~0, maxdepth = ~10, 
+##     minsplit = ~50)
+## 
+## Variables actually used in tree construction:
+##  [1] Age_X_20_25_                     
+##  [2] Age_X_30_35_                     
+##  [3] Age_X_55_60_                     
+##  [4] Baggage_handling                 
+##  [5] Checkin_service                  
+##  [6] Class                            
+##  [7] Cleanliness                      
+##  [8] CustomerType_loyal_customer      
+##  [9] Departure_Arrival_time_convenient
+## [10] DepartureDelayin_Mins            
+## [11] Ease_of_Onlinebooking            
+## [12] Food_drink                       
+## [13] Gate_location                    
+## [14] Inflight_entertainment           
+## [15] Inflightwifi_service             
+## [16] Leg_room_service                 
+## [17] Onboard_service                  
+## [18] Online_boarding                  
+## [19] Online_support                   
+## [20] Seat_comfort                     
+## [21] TypeTravel_personal_travel       
+## 
+## Root node error: 25854/58292 = 0.44353
+## 
+## n= 58292 
+## 
+##            CP nsplit rel error  xerror      xstd
+## 1  5.5519e-01      0   1.00000 1.00000 0.0046394
+## 2  5.3106e-02      1   0.44481 0.44481 0.0037162
+## 3  4.2276e-02      2   0.39170 0.39170 0.0035381
+## 4  1.1320e-02      3   0.34942 0.34942 0.0033795
+## 5  9.7084e-03      6   0.31546 0.30251 0.0031829
+## 6  4.5254e-03     10   0.26015 0.26015 0.0029835
+## 7  4.3707e-03     11   0.25563 0.25779 0.0029717
+## 8  4.0419e-03     12   0.25126 0.25358 0.0029504
+## 9  3.1910e-03     14   0.24317 0.24317 0.0028968
+## 10 2.4561e-03     16   0.23679 0.23679 0.0028630
+## 11 2.3981e-03     18   0.23188 0.23138 0.0028339
+## 12 2.0306e-03     19   0.22948 0.22503 0.0027992
+## 13 1.7792e-03     22   0.22182 0.22194 0.0027820
+## 14 1.6438e-03     23   0.22004 0.21939 0.0027677
+## 15 1.3924e-03     25   0.21676 0.21795 0.0027596
+## 16 1.3828e-03     26   0.21536 0.21416 0.0027380
+## 17 1.3538e-03     30   0.20983 0.21238 0.0027278
+## 18 1.2377e-03     33   0.20577 0.21033 0.0027160
+## 19 1.1604e-03     34   0.20453 0.20786 0.0027016
+## 20 1.0443e-03     35   0.20337 0.20716 0.0026975
+## 21 1.0056e-03     37   0.20128 0.20268 0.0026711
+## 22 9.4763e-04     41   0.19676 0.20090 0.0026605
+## 23 8.3159e-04     45   0.19297 0.19687 0.0026363
+## 24 8.1225e-04     51   0.18798 0.19115 0.0026013
+## 25 7.7357e-04     53   0.18635 0.18864 0.0025857
+## 26 7.5424e-04     55   0.18481 0.18751 0.0025787
+## 27 7.3490e-04     57   0.18330 0.18709 0.0025760
+## 28 6.9622e-04     59   0.18183 0.18643 0.0025719
+## 29 6.7688e-04     63   0.17904 0.18330 0.0025521
+## 30 6.1886e-04     65   0.17769 0.18272 0.0025484
+## 31 5.8018e-04     70   0.17460 0.18051 0.0025344
+## 32 5.6084e-04     74   0.17228 0.17800 0.0025182
+## 33 5.2216e-04     77   0.17042 0.17680 0.0025104
+## 34 5.0282e-04     79   0.16937 0.17556 0.0025024
+## 35 4.6414e-04     82   0.16787 0.17541 0.0025013
+## 36 4.4481e-04     84   0.16694 0.17425 0.0024938
+## 37 3.8679e-04     86   0.16605 0.17282 0.0024843
+## 38 3.6745e-04     89   0.16489 0.17096 0.0024721
+## 39 3.4811e-04     91   0.16415 0.17084 0.0024713
+## 40 3.3153e-04     93   0.16346 0.17081 0.0024710
+## 41 3.0943e-04    100   0.16114 0.17007 0.0024662
+## 42 2.7075e-04    102   0.16052 0.16941 0.0024618
+## 43 2.3207e-04    107   0.15916 0.16957 0.0024628
+## 44 1.9339e-04    113   0.15765 0.16872 0.0024571
+## 45 1.5471e-04    114   0.15746 0.16856 0.0024561
+## 46 1.3538e-04    117   0.15700 0.16864 0.0024566
+## 47 1.1604e-04    119   0.15673 0.16810 0.0024530
+## 48 1.0637e-04    123   0.15626 0.16829 0.0024543
+## 49 7.7357e-05    127   0.15584 0.16833 0.0024545
+## 50 6.4465e-05    128   0.15576 0.16829 0.0024543
+## 51 5.8018e-05    131   0.15557 0.16868 0.0024569
+## 52 0.0000e+00    137   0.15522 0.16922 0.0024605</code></pre>
+<hr />
+<div id="prunning." class="section level4">
+<h4>6.2.1 Prunning.</h4>
+<pre class="r"><code># Find the optimal CCP. 
+plotcp(model_tree_decision$fit)</code></pre>
+<p><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-31-1.png" width="2100" style="display: block; margin: auto auto auto 0;" /></p>
+<pre class="r"><code># Prune the decision tree. 
+model_tree_decision_pruned = rpart::prune(model_tree_decision$fit, cp=7.5424e-04)
+printcp(model_tree_decision_pruned)</code></pre>
+<pre><code>## 
+## Classification tree:
+## rpart::rpart(formula = formula, data = data, cp = ~0, maxdepth = ~10, 
+##     minsplit = ~50)
+## 
+## Variables actually used in tree construction:
+##  [1] Baggage_handling                 
+##  [2] Checkin_service                  
+##  [3] Class                            
+##  [4] Cleanliness                      
+##  [5] CustomerType_loyal_customer      
+##  [6] Departure_Arrival_time_convenient
+##  [7] Ease_of_Onlinebooking            
+##  [8] Food_drink                       
+##  [9] Gate_location                    
+## [10] Inflight_entertainment           
+## [11] Inflightwifi_service             
+## [12] Leg_room_service                 
+## [13] Onboard_service                  
+## [14] Online_boarding                  
+## [15] Online_support                   
+## [16] Seat_comfort                     
+## [17] TypeTravel_personal_travel       
+## 
+## Root node error: 25854/58292 = 0.44353
+## 
+## n= 58292 
+## 
+##            CP nsplit rel error  xerror      xstd
+## 1  0.55519455      0   1.00000 1.00000 0.0046394
+## 2  0.05310590      1   0.44481 0.44481 0.0037162
+## 3  0.04227586      2   0.39170 0.39170 0.0035381
+## 4  0.01131998      3   0.34942 0.34942 0.0033795
+## 5  0.00970836      6   0.31546 0.30251 0.0031829
+## 6  0.00452541     10   0.26015 0.26015 0.0029835
+## 7  0.00437070     11   0.25563 0.25779 0.0029717
+## 8  0.00404193     12   0.25126 0.25358 0.0029504
+## 9  0.00319100     14   0.24317 0.24317 0.0028968
+## 10 0.00245610     16   0.23679 0.23679 0.0028630
+## 11 0.00239808     18   0.23188 0.23138 0.0028339
+## 12 0.00203063     19   0.22948 0.22503 0.0027992
+## 13 0.00177922     22   0.22182 0.22194 0.0027820
+## 14 0.00164385     23   0.22004 0.21939 0.0027677
+## 15 0.00139243     25   0.21676 0.21795 0.0027596
+## 16 0.00138276     26   0.21536 0.21416 0.0027380
+## 17 0.00135376     30   0.20983 0.21238 0.0027278
+## 18 0.00123772     33   0.20577 0.21033 0.0027160
+## 19 0.00116036     34   0.20453 0.20786 0.0027016
+## 20 0.00104433     35   0.20337 0.20716 0.0026975
+## 21 0.00100565     37   0.20128 0.20268 0.0026711
+## 22 0.00094763     41   0.19676 0.20090 0.0026605
+## 23 0.00083159     45   0.19297 0.19687 0.0026363
+## 24 0.00081225     51   0.18798 0.19115 0.0026013
+## 25 0.00077357     53   0.18635 0.18864 0.0025857
+## 26 0.00075424     55   0.18481 0.18751 0.0025787</code></pre>
+<hr />
+<p>The table below shows the feature importance from <code>Decision Tree</code> after executing the complexity pruning.</p>
+<pre class="r"><code>model_tree_decision_pruned$variable.importance %&gt;% 
+    as.list() %&gt;% 
+    as_tibble() %&gt;% 
+    gather() %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       key                                 value         
+##  [1,] &quot;Inflight_entertainment&quot;            &quot;11735.609799&quot;
+##  [2,] &quot;Seat_comfort&quot;                      &quot; 7535.764335&quot;
+##  [3,] &quot;Online_support&quot;                    &quot; 5539.098898&quot;
+##  [4,] &quot;Ease_of_Onlinebooking&quot;             &quot; 4853.101183&quot;
+##  [5,] &quot;Online_boarding&quot;                   &quot; 4023.785888&quot;
+##  [6,] &quot;Checkin_service&quot;                   &quot; 2251.944064&quot;
+##  [7,] &quot;Food_drink&quot;                        &quot; 1880.897415&quot;
+##  [8,] &quot;CustomerType_loyal_customer&quot;       &quot; 1140.574469&quot;
+##  [9,] &quot;Gate_location&quot;                     &quot;  898.829627&quot;
+## [10,] &quot;Departure_Arrival_time_convenient&quot; &quot;  829.234110&quot;
+## [11,] &quot;Cleanliness&quot;                       &quot;  819.898320&quot;
+## [12,] &quot;Onboard_service&quot;                   &quot;  804.523078&quot;
+## [13,] &quot;Inflightwifi_service&quot;              &quot;  646.378965&quot;
+## [14,] &quot;Baggage_handling&quot;                  &quot;  631.533833&quot;
+## [15,] &quot;Class&quot;                             &quot;  631.458653&quot;
+## [16,] &quot;Leg_room_service&quot;                  &quot;  613.958893&quot;
+## [17,] &quot;TypeTravel_personal_travel&quot;        &quot;  410.028850&quot;
+## [18,] &quot;Age_X_20_25_&quot;                      &quot;   15.909620&quot;
+## [19,] &quot;Age_X_65_above_&quot;                   &quot;   10.319077&quot;
+## [20,] &quot;DepartureDelayin_Mins&quot;             &quot;    6.966611&quot;
+## [21,] &quot;Age_X_60_65_&quot;                      &quot;    5.749491&quot;
+## [22,] &quot;Age_X_35_40_&quot;                      &quot;    4.447313&quot;
+## [23,] &quot;Age_X_25_30_&quot;                      &quot;    3.791678&quot;
+## [24,] &quot;Age_X_45_50_&quot;                      &quot;    1.707423&quot;
+## [25,] &quot;Age_X_30_35_&quot;                      &quot;    1.216308&quot;</code></pre>
+<hr />
+</div>
+<div id="evaluate-the-model-performance.-1" class="section level4">
+<h4>6.2.2 Evaluate the model performance.</h4>
+<p>Compare the train and test result to see if it’s overfitting.</p>
+<pre class="r"><code># Train. 
+model_train_performance = df_train_processed %&gt;% 
+    evaluate_performance(model_tree_decision_pruned, &#39;Model Decision Tree&#39;, 
+                         model_train_performance, predict_type=&#39;prob&#39;, bind=TRUE)
+
+model_train_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model Decision Tree","2":"0.9180333","3":"0.9071656","4":"0.8337917","5":"0.9114156","6":"0.9651462","7":"0.9029551"},{"1":"Model GLM Logistic","2":"0.8329616","3":"0.8111264","4":"0.6614002","5":"0.8135725","6":"0.9067672","7":"0.8086950"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Test. 
+model_test_performance = df_test_processed %&gt;% 
+    evaluate_performance(model_tree_decision_pruned, &#39;Model Decision Tree&#39;, 
+                         model_test_performance, predict_type=&#39;prob&#39;, bind=TRUE)
+
+model_test_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model Decision Tree","2":"0.9154223","3":"0.9028450","4":"0.8279623","5":"0.9052242","6":"0.9661453","7":"0.9004783"},{"1":"Model GLM Logistic","2":"0.8324904","3":"0.8094085","4":"0.6600066","5":"0.8038646","6":"0.9057824","7":"0.8150294"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># View the confusion matrix.
+df_test_processed %&gt;% 
+    make_prediction(model_tree_decision_pruned, predict_type=&#39;prob&#39;) %&gt;% 
+    conf_matrix_result()</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction     0     1
+##          0  9790  1025
+##          1  1082 13015
+##                                           
+##                Accuracy : 0.9154          
+##                  95% CI : (0.9119, 0.9188)
+##     No Information Rate : 0.5636          
+##     P-Value [Acc &gt; NIR] : &lt;2e-16          
+##                                           
+##                   Kappa : 0.828           
+##                                           
+##  Mcnemar&#39;s Test P-Value : 0.2225          
+##                                           
+##             Sensitivity : 0.9270          
+##             Specificity : 0.9005          
+##          Pos Pred Value : 0.9232          
+##          Neg Pred Value : 0.9052          
+##              Prevalence : 0.5636          
+##          Detection Rate : 0.5224          
+##    Detection Prevalence : 0.5659          
+##       Balanced Accuracy : 0.9137          
+##                                           
+##        &#39;Positive&#39; Class : 1               
+## </code></pre>
+<hr />
+</div>
+</div>
+<div id="train-random-forest-model." class="section level3">
+<h3>6.3 Train Random Forest model.</h3>
+<pre class="r"><code>set.seed(5)
+model_random_forest = rand_forest(&quot;classification&quot;, trees=131, mtry=5) %&gt;%
+    set_engine(&quot;randomForest&quot;, importance=TRUE) %&gt;%
+    fit(Satisfaction ~ ., data=df_train_processed)
+
+model_random_forest</code></pre>
+<pre><code>## parsnip model object
+## 
+## Fit time:  52s 
+## 
+## Call:
+##  randomForest(x = as.data.frame(x), y = y, ntree = ~131, mtry = ~5,      importance = ~TRUE) 
+##                Type of random forest: classification
+##                      Number of trees: 131
+## No. of variables tried at each split: 5
+## 
+##         OOB estimate of  error rate: 5.02%
+## Confusion matrix:
+##                         neutral_or dissatisfied satisfied
+## neutral_or dissatisfied                   24651      1203
+## satisfied                                  1722     30716
+##                         class.error
+## neutral_or dissatisfied  0.04653052
+## satisfied                0.05308589</code></pre>
+<div id="tune-the-model." class="section level4">
+<h4>6.3.1 Tune the model.</h4>
+<p>This section took very long to run the tuning, so I directly input the best parameters into the model, whenever I rerun the model training section. The result below is a tuned model.</p>
+<pre class="r"><code>plot(model_random_forest$fit, main=&quot;Error Rates Random Forest&quot;)
+legend(&quot;topright&quot;, legend=c(&quot;OOB&quot;, &quot;0&quot;, &quot;1&quot;), text.col=1:6, lty=1:3, col=1:3) </code></pre>
+<p><img src="airlines_passenger_satisfaction_analysis_files/figure-html/unnamed-chunk-38-1.png" width="2100" style="display: block; margin: auto auto auto 0;" /></p>
+<pre class="r"><code># # I ran this previously. It took very long, so
+# # I directly input the optimal &#39;mtry&#39; and &#39;trees&#39; into the model,
+# # whenever I rerun the model training section.
+# 
+# set.seed(5)
+# model_random_forest_tuned = tuneRF(x=df_train_processed %&gt;% select(-Satisfaction),
+#                                    y=df_train_processed$Satisfaction,
+#                                    mtryStart=5, ntreeTry=131, stepFactor=1, improve=0.003,
+#                                    trace=TRUE, plot=TRUE, doBest=TRUE, importance=TRUE)</code></pre>
+<hr />
+<p>The table below shows the feature importance for Random Forest.</p>
+<pre class="r"><code># Feature importance. 
+model_random_forest$fit$importance %&gt;% 
+    as_tibble() %&gt;% 
+    mutate(variables = model_random_forest$fit$importance %&gt;% rownames()) %&gt;% 
+    select(variables, MeanDecreaseGini) %&gt;% 
+    arrange(desc(MeanDecreaseGini)) %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       variables                           MeanDecreaseGini
+##  [1,] &quot;Inflight_entertainment&quot;            &quot;5476.96868&quot;    
+##  [2,] &quot;Seat_comfort&quot;                      &quot;3714.97117&quot;    
+##  [3,] &quot;Ease_of_Onlinebooking&quot;             &quot;2297.79968&quot;    
+##  [4,] &quot;Online_support&quot;                    &quot;1867.25834&quot;    
+##  [5,] &quot;Leg_room_service&quot;                  &quot;1528.80358&quot;    
+##  [6,] &quot;CustomerType_loyal_customer&quot;       &quot;1426.87838&quot;    
+##  [7,] &quot;Food_drink&quot;                        &quot;1319.23242&quot;    
+##  [8,] &quot;Onboard_service&quot;                   &quot;1266.59573&quot;    
+##  [9,] &quot;Class&quot;                             &quot;1213.71162&quot;    
+## [10,] &quot;Online_boarding&quot;                   &quot;1192.80400&quot;    
+## [11,] &quot;Baggage_handling&quot;                  &quot; 865.76560&quot;    
+## [12,] &quot;Checkin_service&quot;                   &quot; 865.49995&quot;    
+## [13,] &quot;Departure_Arrival_time_convenient&quot; &quot; 848.52265&quot;    
+## [14,] &quot;Cleanliness&quot;                       &quot; 823.69312&quot;    
+## [15,] &quot;Gate_location&quot;                     &quot; 709.22705&quot;    
+## [16,] &quot;Inflightwifi_service&quot;              &quot; 634.67276&quot;    
+## [17,] &quot;DepartureDelayin_Mins&quot;             &quot; 604.29593&quot;    
+## [18,] &quot;TypeTravel_personal_travel&quot;        &quot; 586.88634&quot;    
+## [19,] &quot;Age_X_20_25_&quot;                      &quot; 149.30125&quot;    
+## [20,] &quot;Age_X_25_30_&quot;                      &quot; 125.38116&quot;    
+## [21,] &quot;Age_X_35_40_&quot;                      &quot; 117.96141&quot;    
+## [22,] &quot;Age_X_40_45_&quot;                      &quot; 107.63772&quot;    
+## [23,] &quot;Age_X_30_35_&quot;                      &quot;  99.96445&quot;    
+## [24,] &quot;Age_X_45_50_&quot;                      &quot;  95.17959&quot;    
+## [25,] &quot;Age_X_65_above_&quot;                   &quot;  88.13647&quot;    
+## [26,] &quot;Age_X_50_55_&quot;                      &quot;  87.85022&quot;    
+## [27,] &quot;Age_X_55_60_&quot;                      &quot;  78.09450&quot;    
+## [28,] &quot;Age_X_60_65_&quot;                      &quot;  69.62160&quot;</code></pre>
+<hr />
+</div>
+<div id="evaluate-the-model-performance.-2" class="section level4">
+<h4>6.3.2 Evaluate the model performance.</h4>
+<p>Compare the train and test result to see if it’s overfitting.</p>
+<pre class="r"><code># Train.
+model_train_performance = df_train_processed %&gt;% 
+    evaluate_performance(model_random_forest, &#39;Model Random Forest&#39;, 
+                         model_train_performance, predict_type=&#39;ensemble&#39;, bind=TRUE)
+
+model_train_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model Random Forest","2":"0.9988678","3":"0.9987242","4":"0.9977065","5":"0.9982611","6":"0.9999931","7":"0.9991877"},{"1":"Model Decision Tree","2":"0.9180333","3":"0.9071656","4":"0.8337917","5":"0.9114156","6":"0.9651462","7":"0.9029551"},{"1":"Model GLM Logistic","2":"0.8329616","3":"0.8111264","4":"0.6614002","5":"0.8135725","6":"0.9067672","7":"0.8086950"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Test.
+model_test_performance = df_test_processed %&gt;% 
+    evaluate_performance(model_random_forest, &#39;Model Random Forest&#39;, 
+                         model_test_performance, predict_type=&#39;ensemble&#39;, bind=TRUE)
+
+model_test_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model Random Forest","2":"0.9523523","3":"0.9459152","4":"0.9033418","5":"0.9372460","6":"0.9916267","7":"0.9547461"},{"1":"Model Decision Tree","2":"0.9154223","3":"0.9028450","4":"0.8279623","5":"0.9052242","6":"0.9661453","7":"0.9004783"},{"1":"Model GLM Logistic","2":"0.8324904","3":"0.8094085","4":"0.6600066","5":"0.8038646","6":"0.9057824","7":"0.8150294"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># View the confusion matrix.
+df_test_processed %&gt;% 
+    make_prediction(model_random_forest, predict_type=&#39;ensemble&#39;) %&gt;% 
+    conf_matrix_result()</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction     0     1
+##          0 10380   695
+##          1   492 13345
+##                                          
+##                Accuracy : 0.9524         
+##                  95% CI : (0.9496, 0.955)
+##     No Information Rate : 0.5636         
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16      
+##                                          
+##                   Kappa : 0.9033         
+##                                          
+##  Mcnemar&#39;s Test P-Value : 4.544e-09      
+##                                          
+##             Sensitivity : 0.9505         
+##             Specificity : 0.9547         
+##          Pos Pred Value : 0.9644         
+##          Neg Pred Value : 0.9372         
+##              Prevalence : 0.5636         
+##          Detection Rate : 0.5357         
+##    Detection Prevalence : 0.5554         
+##       Balanced Accuracy : 0.9526         
+##                                          
+##        &#39;Positive&#39; Class : 1              
+## </code></pre>
+<hr />
+</div>
+</div>
+<div id="train-xgboost-model." class="section level3">
+<h3>6.4 Train XGBoost model.</h3>
+<pre class="r"><code>model_xgb = boost_tree(mode=&quot;classification&quot;, mtry=tune(), learn_rate=tune(), 
+                       tree_depth=tune(), min_n=tune()) %&gt;%
+    set_engine(&quot;xgboost&quot;) 
+
+model_xgb</code></pre>
+<pre><code>## Boosted Tree Model Specification (classification)
+## 
+## Main Arguments:
+##   mtry = tune()
+##   min_n = tune()
+##   tree_depth = tune()
+##   learn_rate = tune()
+## 
+## Computational engine: xgboost</code></pre>
+<hr />
+<div id="hyperparameter-tunning." class="section level4">
+<h4>6.4.1 Hyperparameter tunning.</h4>
+<p>This section took quite long to run the bayesian optimisation, so I directly input the best parameters into the model, whenever I rerun the model training section. The result below is a tuned model.</p>
+<pre class="r"><code># # This section took very long to run, so
+# # I directly input the best parameters into the model,
+# # whenever I rerun the model training section.
+# 
+# recipe_xgb = recipe(Satisfaction ~ ., data=df_train_processed)
+# 
+# # Set the folds.
+# set.seed(5)
+# folds = vfold_cv(df_train_processed, v=10, strata=&#39;Satisfaction&#39;)
+# 
+# # Set the metrics.
+# class_metrics = yardstick::metric_set(accuracy, roc_auc, sensitivity, precision, f_meas, kap)
+# 
+# # Set the workflow.
+# xgb_wflow = workflow() %&gt;%
+#     add_model(model_xgb) %&gt;%
+#     add_recipe(recipe_xgb)
+#     # add_formula(Satisfaction ~ .)
+# 
+# # Set the range of parameters.
+# xgb_param &lt;-
+#     xgb_wflow %&gt;%
+#     parameters() %&gt;%
+#     update(
+#         learn_rate = learn_rate(c(0.001, 0.5)),
+#         tree_depth = tree_depth(c(3, 10)),
+#         mtry = mtry(c(3, 9)),
+#         min_n = min_n(c(50, 100))
+#     )
+# 
+# # Perform bayesian optimisation.
+# set.seed(5)
+# tuned_xgb = tune_bayes(xgb_wflow, resamples=folds, initial=5, iter=20, metrics=class_metrics,
+#                        param_info=xgb_param, control=control_bayes(verbose=TRUE))</code></pre>
+<pre class="r"><code># # Show the results of various combination of parameters from Bayesian Optimisation.
+# collect_metrics(tuned_xgb) %&gt;%
+#     filter(.metric == &#39;sens&#39;) %&gt;%
+#     arrange(desc(mean))</code></pre>
+<pre class="r"><code># Fit the model with the best parameter. 
+set.seed(5)
+model_xgb = boost_tree(mode=&quot;classification&quot;, mtry=9, learn_rate=1.151495, 
+                       tree_depth=8, min_n=54) %&gt;%
+    set_engine(&quot;xgboost&quot;) %&gt;% 
+    fit(Satisfaction ~ ., data=df_train_processed)</code></pre>
+<hr />
+<p>The table below shows the feature gain (aka feature importance).</p>
+<pre class="r"><code># Show the feature gain. 
+xgb.importance(model=model_xgb$fit) %&gt;% 
+    select(Feature, Gain) %&gt;% 
+    arrange(desc(Gain)) %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       Feature                             Gain          
+##  [1,] &quot;Inflight_entertainment&quot;            &quot;0.4517750369&quot;
+##  [2,] &quot;Seat_comfort&quot;                      &quot;0.1380882613&quot;
+##  [3,] &quot;Onboard_service&quot;                   &quot;0.0581396517&quot;
+##  [4,] &quot;Online_boarding&quot;                   &quot;0.0459806210&quot;
+##  [5,] &quot;Baggage_handling&quot;                  &quot;0.0419795540&quot;
+##  [6,] &quot;Class&quot;                             &quot;0.0406289410&quot;
+##  [7,] &quot;CustomerType_loyal_customer&quot;       &quot;0.0398748884&quot;
+##  [8,] &quot;Gate_location&quot;                     &quot;0.0345477063&quot;
+##  [9,] &quot;Departure_Arrival_time_convenient&quot; &quot;0.0322028261&quot;
+## [10,] &quot;Online_support&quot;                    &quot;0.0228241916&quot;
+## [11,] &quot;Ease_of_Onlinebooking&quot;             &quot;0.0189583503&quot;
+## [12,] &quot;TypeTravel_personal_travel&quot;        &quot;0.0137603249&quot;
+## [13,] &quot;Checkin_service&quot;                   &quot;0.0110124126&quot;
+## [14,] &quot;Cleanliness&quot;                       &quot;0.0109138182&quot;
+## [15,] &quot;Leg_room_service&quot;                  &quot;0.0083444773&quot;
+## [16,] &quot;Age_X_20_25_&quot;                      &quot;0.0081097684&quot;
+## [17,] &quot;Food_drink&quot;                        &quot;0.0080467311&quot;
+## [18,] &quot;Inflightwifi_service&quot;              &quot;0.0068892976&quot;
+## [19,] &quot;DepartureDelayin_Mins&quot;             &quot;0.0039087491&quot;
+## [20,] &quot;Age_X_25_30_&quot;                      &quot;0.0009463012&quot;
+## [21,] &quot;Age_X_65_above_&quot;                   &quot;0.0007167897&quot;
+## [22,] &quot;Age_X_50_55_&quot;                      &quot;0.0005906867&quot;
+## [23,] &quot;Age_X_35_40_&quot;                      &quot;0.0005667831&quot;
+## [24,] &quot;Age_X_30_35_&quot;                      &quot;0.0003317786&quot;
+## [25,] &quot;Age_X_40_45_&quot;                      &quot;0.0002602920&quot;
+## [26,] &quot;Age_X_45_50_&quot;                      &quot;0.0002197457&quot;
+## [27,] &quot;Age_X_60_65_&quot;                      &quot;0.0002139177&quot;
+## [28,] &quot;Age_X_55_60_&quot;                      &quot;0.0001680975&quot;</code></pre>
+<hr />
+</div>
+<div id="evaluate-the-model-performance.-3" class="section level4">
+<h4>6.4.2 Evaluate the model performance.</h4>
+<p>Compare the train and test result to see if it’s overfitting.</p>
+<pre class="r"><code>model_train_performance = df_train_processed %&gt;% 
+    evaluate_performance(model_xgb, &#39;Model XGB&#39;, 
+                         model_train_performance, predict_type=&#39;ensemble&#39;, bind=TRUE)
+
+model_train_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model XGB","2":"0.9342963","3":"0.9263206","4":"0.8670375","5":"0.9214636","6":"0.9832798","7":"0.9312292"},{"1":"Model Random Forest","2":"0.9988678","3":"0.9987242","4":"0.9977065","5":"0.9982611","6":"0.9999931","7":"0.9991877"},{"1":"Model Decision Tree","2":"0.9180333","3":"0.9071656","4":"0.8337917","5":"0.9114156","6":"0.9651462","7":"0.9029551"},{"1":"Model GLM Logistic","2":"0.8329616","3":"0.8111264","4":"0.6614002","5":"0.8135725","6":"0.9067672","7":"0.8086950"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>model_test_performance = df_test_processed %&gt;% 
+    evaluate_performance(model_xgb, &#39;Model XGB&#39;, 
+                         model_test_performance, predict_type=&#39;ensemble&#39;, bind=TRUE)
+
+model_test_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model XGB","2":"0.9300337","3":"0.9204872","4":"0.8580281","5":"0.9131143","6":"0.9815786","7":"0.9279801"},{"1":"Model Random Forest","2":"0.9523523","3":"0.9459152","4":"0.9033418","5":"0.9372460","6":"0.9916267","7":"0.9547461"},{"1":"Model Decision Tree","2":"0.9154223","3":"0.9028450","4":"0.8279623","5":"0.9052242","6":"0.9661453","7":"0.9004783"},{"1":"Model GLM Logistic","2":"0.8324904","3":"0.8094085","4":"0.6600066","5":"0.8038646","6":"0.9057824","7":"0.8150294"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># View the confusion matrix.
+df_test_processed %&gt;% 
+    make_prediction(model_xgb, predict_type=&#39;ensemble&#39;) %&gt;% 
+    conf_matrix_result()</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##           Reference
+## Prediction     0     1
+##          0 10089   960
+##          1   783 13080
+##                                           
+##                Accuracy : 0.93            
+##                  95% CI : (0.9268, 0.9332)
+##     No Information Rate : 0.5636          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.858           
+##                                           
+##  Mcnemar&#39;s Test P-Value : 2.491e-05       
+##                                           
+##             Sensitivity : 0.9316          
+##             Specificity : 0.9280          
+##          Pos Pred Value : 0.9435          
+##          Neg Pred Value : 0.9131          
+##              Prevalence : 0.5636          
+##          Detection Rate : 0.5250          
+##    Detection Prevalence : 0.5565          
+##       Balanced Accuracy : 0.9298          
+##                                           
+##        &#39;Positive&#39; Class : 1               
+## </code></pre>
+<hr />
+</div>
+</div>
+</div>
+<div id="save-the-models." class="section level2">
+<h2>7 Save the models.</h2>
+<pre class="r"><code># version = 3
+# 
+# models_tbl = list(
+#     &quot;MODEL_LOG_GLM&quot; = model_log_glm,
+#     &quot;MODEL_LOG_GLM_ADJUSTED&quot; = model_log_glm_adjusted,
+#     &quot;MODEL_DECISION_TREE&quot; = model_tree_decision,
+#     &quot;MODEL_DECISION_TREE_PRUNED&quot; = model_tree_decision_pruned,
+#     &quot;MODEL_RANDOM_FOREST&quot; = model_random_forest,
+#     &quot;MODEL_XGBOOST&quot; = model_xgb) %&gt;%
+#     enframe(name=&quot;model_id&quot;, value=&quot;model&quot;)
+# 
+# models_tbl %&gt;% write_rds(str_glue(&quot;models/models_tbl_v{version}.rds&quot;))</code></pre>
+<hr />
+</div>
+<div id="model-comparison." class="section level2">
+<h2>8 Model comparison.</h2>
+<pre class="r"><code># Train.
+model_train_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model XGB","2":"0.9342963","3":"0.9263206","4":"0.8670375","5":"0.9214636","6":"0.9832798","7":"0.9312292"},{"1":"Model Random Forest","2":"0.9988678","3":"0.9987242","4":"0.9977065","5":"0.9982611","6":"0.9999931","7":"0.9991877"},{"1":"Model Decision Tree","2":"0.9180333","3":"0.9071656","4":"0.8337917","5":"0.9114156","6":"0.9651462","7":"0.9029551"},{"1":"Model GLM Logistic","2":"0.8329616","3":"0.8111264","4":"0.6614002","5":"0.8135725","6":"0.9067672","7":"0.8086950"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Test.
+model_test_performance</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["accuracy"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["f_meas"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["kap"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["precision"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["roc_auc"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["sens"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Model XGB","2":"0.9300337","3":"0.9204872","4":"0.8580281","5":"0.9131143","6":"0.9815786","7":"0.9279801"},{"1":"Model Random Forest","2":"0.9523523","3":"0.9459152","4":"0.9033418","5":"0.9372460","6":"0.9916267","7":"0.9547461"},{"1":"Model Decision Tree","2":"0.9154223","3":"0.9028450","4":"0.8279623","5":"0.9052242","6":"0.9661453","7":"0.9004783"},{"1":"Model GLM Logistic","2":"0.8324904","3":"0.8094085","4":"0.6600066","5":"0.8038646","6":"0.9057824","7":"0.8150294"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+</div>
+<div id="model-interpretation." class="section level2">
+<h2>9 Model interpretation.</h2>
+<p>The table below shows the feature importance from the <code>Decision Tree</code> after executing the complexity pruning.</p>
+<pre class="r"><code>model_tree_decision_pruned$variable.importance %&gt;% 
+    as.list() %&gt;% 
+    as_tibble() %&gt;% 
+    gather() %&gt;% 
+    mutate(value = round(value, 2)) %&gt;% 
+    set_names(c(&#39;Feature&#39;, &#39;Importance&#39;)) %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       Feature                             Importance
+##  [1,] &quot;Inflight_entertainment&quot;            &quot;11735.61&quot;
+##  [2,] &quot;Seat_comfort&quot;                      &quot; 7535.76&quot;
+##  [3,] &quot;Online_support&quot;                    &quot; 5539.10&quot;
+##  [4,] &quot;Ease_of_Onlinebooking&quot;             &quot; 4853.10&quot;
+##  [5,] &quot;Online_boarding&quot;                   &quot; 4023.79&quot;
+##  [6,] &quot;Checkin_service&quot;                   &quot; 2251.94&quot;
+##  [7,] &quot;Food_drink&quot;                        &quot; 1880.90&quot;
+##  [8,] &quot;CustomerType_loyal_customer&quot;       &quot; 1140.57&quot;
+##  [9,] &quot;Gate_location&quot;                     &quot;  898.83&quot;
+## [10,] &quot;Departure_Arrival_time_convenient&quot; &quot;  829.23&quot;
+## [11,] &quot;Cleanliness&quot;                       &quot;  819.90&quot;
+## [12,] &quot;Onboard_service&quot;                   &quot;  804.52&quot;
+## [13,] &quot;Inflightwifi_service&quot;              &quot;  646.38&quot;
+## [14,] &quot;Baggage_handling&quot;                  &quot;  631.53&quot;
+## [15,] &quot;Class&quot;                             &quot;  631.46&quot;
+## [16,] &quot;Leg_room_service&quot;                  &quot;  613.96&quot;
+## [17,] &quot;TypeTravel_personal_travel&quot;        &quot;  410.03&quot;
+## [18,] &quot;Age_X_20_25_&quot;                      &quot;   15.91&quot;
+## [19,] &quot;Age_X_65_above_&quot;                   &quot;   10.32&quot;
+## [20,] &quot;DepartureDelayin_Mins&quot;             &quot;    6.97&quot;
+## [21,] &quot;Age_X_60_65_&quot;                      &quot;    5.75&quot;
+## [22,] &quot;Age_X_35_40_&quot;                      &quot;    4.45&quot;
+## [23,] &quot;Age_X_25_30_&quot;                      &quot;    3.79&quot;
+## [24,] &quot;Age_X_45_50_&quot;                      &quot;    1.71&quot;
+## [25,] &quot;Age_X_30_35_&quot;                      &quot;    1.22&quot;</code></pre>
+<pre class="r"><code># pdf(file=&quot;docs/image/decision_tree_v1.pdf&quot;)
+# rpart.plot(model_tree_decision_pruned, roundint=FALSE, type=2, extra=&#39;auto&#39;)
+# dev.off()</code></pre>
+<p><strong>Findings from the model performance table:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The <code>Random Forest</code> model scores the highest in all metrics. However, it has high variance due to overfitting.</li>
+<li>The <code>XGBoost</code> model is the second highest, with lower variance than <code>Random Forest</code>.</li>
+<li>The <code>Decision Tree</code> model is the third highest.</li>
+</ol>
+<p>Since <code>Decision Tree</code> has greater model interpretability and high overall metric scores, I will go with this model instead. Nonetheless, for model interpretation, I will pair this with the <code>Logistic</code> model since the <code>Logistic</code> model is able shows us the increase or decrease in odds ratio for each unit of X variable.</p>
+<hr />
+<p>The table below shows the feature weights from the <code>Logistic</code> model after checking the VIF and adjusting the parameters with <code>StepAIC</code> by removing or adding the parameters to get the lowest AIC.</p>
+<pre class="r"><code># Finalised model. 
+# Preview the variable weights. 
+broom::tidy(model_log_glm_adjusted) %&gt;% 
+    mutate(estimate_abs = abs(estimate)) %&gt;% 
+    arrange(desc(estimate_abs)) %&gt;% 
+    select(term, estimate) %&gt;% 
+    mutate(estimate = round(estimate, 4)) %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       term                                estimate  
+##  [1,] &quot;(Intercept)&quot;                       &quot;-11.5219&quot;
+##  [2,] &quot;CustomerType_loyal_customer&quot;       &quot;  2.0452&quot;
+##  [3,] &quot;TypeTravel_personal_travel&quot;        &quot; -0.7768&quot;
+##  [4,] &quot;Inflight_entertainment&quot;            &quot;  0.7158&quot;
+##  [5,] &quot;Age_X_20_25_&quot;                      &quot;  0.6252&quot;
+##  [6,] &quot;Class&quot;                             &quot;  0.3470&quot;
+##  [7,] &quot;Age_X_65_above_&quot;                   &quot; -0.3296&quot;
+##  [8,] &quot;Onboard_service&quot;                   &quot;  0.3095&quot;
+##  [9,] &quot;Checkin_service&quot;                   &quot;  0.2986&quot;
+## [10,] &quot;Seat_comfort&quot;                      &quot;  0.2916&quot;
+## [11,] &quot;Leg_room_service&quot;                  &quot;  0.2462&quot;
+## [12,] &quot;Ease_of_Onlinebooking&quot;             &quot;  0.2250&quot;
+## [13,] &quot;Departure_Arrival_time_convenient&quot; &quot; -0.2233&quot;
+## [14,] &quot;Food_drink&quot;                        &quot; -0.1926&quot;
+## [15,] &quot;DepartureDelayin_Mins&quot;             &quot; -0.1810&quot;
+## [16,] &quot;Online_boarding&quot;                   &quot;  0.1587&quot;
+## [17,] &quot;Gate_location&quot;                     &quot;  0.1285&quot;
+## [18,] &quot;Online_support&quot;                    &quot;  0.1010&quot;
+## [19,] &quot;Baggage_handling&quot;                  &quot;  0.0934&quot;
+## [20,] &quot;Cleanliness&quot;                       &quot;  0.0917&quot;
+## [21,] &quot;Inflightwifi_service&quot;              &quot; -0.0651&quot;</code></pre>
+<p><strong>Findings on the feature importance from <code>Decision Tree</code>:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The top 5 important features are <code>inflight_entertainment</code>, <code>Seat_comfort</code>, <code>Ease_of_Onlinebooking</code>, <code>Online_boarding</code>, <code>Online_support</code>. These should mostly likely be the baseline for customer satisfaction.</li>
+<li>Customers at different age group do not seem to have any significant impact on customer satisfaction although customers aged between 20-25 seem to have greater impact than the rest of the age groups (perhaps due to different opinion or perspective).</li>
+<li><code>DepartureDelayin_Mins</code> also do not seem to have any significant impact on customer satisfaction, regardless of the time length. It’s rather the <code>Depature_Arrival_time_convenient</code> feature that is affecting the customer satisfaction. We can find out more from the logistic model on this.</li>
+</ol>
+<p>I can explore with the top N important features incrementally to investigate the business impact of the improved features (increased rating) on the proportion of customers feeling satisfied and reduction in customer churn cost. However, there is a limitation on the model interpretation. For example, in real world, even if the model is 100% perfect and we were able to increase the rating for <code>Inflight_entertainment</code> to 5 (good) or above (excellent), some customers’ satisfaction might still not be affected since different customers prioritise or view the features differently. We only assume most customers would be affected by that feature.</p>
+<p>To reduce the business risk, we can extend this research further by conducting several interviews with various segment of customers to find out more.</p>
+<hr />
+</div>
+<div id="explore-the-important-variables-effect-on-the-cost-of-customer-churn." class="section level2">
+<h2>10 Explore the important variable’s effect on the cost of customer churn.</h2>
+<div id="find-the-optimal-discriminant-threshold." class="section level3">
+<h3>10.1 Find the optimal discriminant threshold.</h3>
+<p>After some exploration, to avoid underestimating the customer churn cost for loyal business and personal travellers who are neutral/dissatisfied, the discriminant threshold should at least be around 0.75.</p>
+<pre class="r"><code># To avoid underestimating the customer churn cost
+# for loyal business and personal travellers, 
+# the threshold should at least be this. 
+prob_threshold = .75
+
+# Predict the probability of customer feeling satisfied 
+# and compute the the life time value.
+predicted_customer_churn_cost = df_train_processed %&gt;% 
+    make_prediction(model_tree_decision_pruned, predict_type=&#39;prob&#39;, threshold=prob_threshold) %&gt;% 
+    bind_cols(df_train_processed_with_id %&gt;% select(-Satisfaction)) %&gt;% 
+    select(CustomerId, .pred_satisfied, .pred_class, Satisfaction, everything()) %&gt;% 
+    compute_customer_life_time_value(travel_type_colname=TypeTravel_personal_travel)</code></pre>
+<pre class="r"><code># Estimate the cost of customer churn for loyal customers. 
+predicted_customer_churn_cost %&gt;%
+    life_time_value_by_customer_type(.pred_class, CustomerType_loyal_customer, TypeTravel_personal_travel)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[".pred_class"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType_loyal_customer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["TypeTravel_personal_travel"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_customer_life_time_value"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"0","2":"0","3":"0","4":"$23,351,850"},{"1":"0","2":"0","3":"1","4":"$44,300"},{"1":"0","2":"1","3":"0","4":"$26,604,450"},{"1":"0","2":"1","3":"1","4":"$6,496,500"},{"1":"1","2":"0","3":"0","4":"$4,350,750"},{"1":"1","2":"0","3":"1","4":"$5,200"},{"1":"1","2":"1","3":"0","4":"$72,694,950"},{"1":"1","2":"1","3":"1","4":"$4,592,700"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Actual cost of customer churn for loyal customers. 
+predicted_customer_churn_cost %&gt;%
+    life_time_value_by_customer_type(Satisfaction, CustomerType_loyal_customer, TypeTravel_personal_travel)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Satisfaction"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType_loyal_customer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["TypeTravel_personal_travel"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_customer_life_time_value"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"0","2":"0","3":"0","4":"$20,283,150"},{"1":"0","2":"0","3":"1","4":"$43,000"},{"1":"0","2":"1","3":"0","4":"$26,217,300"},{"1":"0","2":"1","3":"1","4":"$5,949,150"},{"1":"1","2":"0","3":"0","4":"$7,419,450"},{"1":"1","2":"0","3":"1","4":"$6,500"},{"1":"1","2":"1","3":"0","4":"$73,082,100"},{"1":"1","2":"1","3":"1","4":"$5,140,050"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+</div>
+<div id="compare-the-new-estimated-customer-churn-cost-after-improving-the-rating." class="section level3">
+<h3>10.2 Compare the new estimated customer churn cost after improving the rating.</h3>
+<div id="explore-on-train-set." class="section level4">
+<h4>10.2.1 Explore on TRAIN set.</h4>
+<p>I will first explore the following top 5 important features to see the effect by increasing the rating to 5 (good) or above (excellent). Then I will estimate the customer life time value after increasing the rating for these 5 features and making model prediction:</p>
+<ol style="list-style-type: decimal">
+<li>Inflight entertainment.</li>
+<li>Seat comfort.</li>
+<li>Online support.</li>
+<li>Ease of online booking.</li>
+<li>Online boarding.</li>
+</ol>
+<pre class="r"><code># Predict the probability of customer feeling satisfied 
+# and compute the the life time value 
+# after reassigning / improving the ratings for the top 5 variables/features. 
+predicted_customer_churn_cost_on_train = df_train_processed %&gt;% 
+    mutate(
+        Inflight_entertainment = Inflight_entertainment %&gt;% reassign_rating(5),
+        Seat_comfort = Seat_comfort %&gt;% reassign_rating(5),
+        Online_support = Online_support %&gt;% reassign_rating(5),
+        Ease_of_Onlinebooking = Ease_of_Onlinebooking %&gt;% reassign_rating(5),
+        Online_boarding = Online_boarding %&gt;% reassign_rating(5)
+    ) %&gt;%
+
+    make_prediction(model_tree_decision_pruned, predict_type=&#39;prob&#39;, threshold=prob_threshold) %&gt;% 
+    bind_cols(df_train_processed_with_id %&gt;% select(-Satisfaction)) %&gt;% 
+    select(CustomerId, .pred_satisfied, .pred_class, Satisfaction, everything()) %&gt;% 
+    compute_customer_life_time_value(travel_type_colname=TypeTravel_personal_travel) </code></pre>
+<pre class="r"><code># Estimate the cost of customer churn for loyal customers. 
+predicted_customer_churn_cost_on_train %&gt;%
+    life_time_value_by_customer_type(.pred_class, CustomerType_loyal_customer, TypeTravel_personal_travel)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[".pred_class"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType_loyal_customer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["TypeTravel_personal_travel"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_customer_life_time_value"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"0","2":"0","3":"0","4":"$24,811,950"},{"1":"0","2":"0","3":"1","4":"$46,900"},{"1":"0","2":"1","3":"0","4":"$9,199,200"},{"1":"0","2":"1","3":"1","4":"$2,970,100"},{"1":"1","2":"0","3":"0","4":"$2,890,650"},{"1":"1","2":"0","3":"1","4":"$2,600"},{"1":"1","2":"1","3":"0","4":"$90,100,200"},{"1":"1","2":"1","3":"1","4":"$8,119,100"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Actual cost of customer churn for loyal customers. 
+predicted_customer_churn_cost_on_train %&gt;%
+    life_time_value_by_customer_type(Satisfaction, CustomerType_loyal_customer, TypeTravel_personal_travel)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Satisfaction"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType_loyal_customer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["TypeTravel_personal_travel"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_customer_life_time_value"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"0","2":"0","3":"0","4":"$20,283,150"},{"1":"0","2":"0","3":"1","4":"$43,000"},{"1":"0","2":"1","3":"0","4":"$26,217,300"},{"1":"0","2":"1","3":"1","4":"$5,949,150"},{"1":"1","2":"0","3":"0","4":"$7,419,450"},{"1":"1","2":"0","3":"1","4":"$6,500"},{"1":"1","2":"1","3":"0","4":"$73,082,100"},{"1":"1","2":"1","3":"1","4":"$5,140,050"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+</div>
+<div id="explore-on-test-set." class="section level4">
+<h4>10.2.2 Explore on TEST set.</h4>
+<pre class="r"><code># Predict the probability of customer feeling satisfied 
+# and compute the the life time value 
+# after reassigning / improving the ratings for the top 5 variables/features. 
+predicted_customer_churn_cost_on_test = df_test_processed %&gt;% 
+    mutate(
+        Inflight_entertainment = Inflight_entertainment %&gt;% reassign_rating(5),
+        Seat_comfort = Seat_comfort %&gt;% reassign_rating(5),
+        Online_support = Online_support %&gt;% reassign_rating(5),
+        Ease_of_Onlinebooking = Ease_of_Onlinebooking %&gt;% reassign_rating(5),
+        Online_boarding = Online_boarding %&gt;% reassign_rating(5)
+    ) %&gt;%
+
+    make_prediction(model_tree_decision_pruned, predict_type=&#39;prob&#39;, threshold=prob_threshold) %&gt;% 
+    bind_cols(df_test_processed_with_id %&gt;% select(-Satisfaction)) %&gt;% 
+    select(CustomerId, .pred_satisfied, .pred_class, Satisfaction, everything()) %&gt;% 
+    compute_customer_life_time_value </code></pre>
+<pre class="r"><code># Estimate the cost of customer churn for loyal customers. 
+predicted_customer_churn_cost_on_test %&gt;%
+    life_time_value_by_customer_type(.pred_class, CustomerType_loyal_customer, TypeTravel_personal_travel)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[".pred_class"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType_loyal_customer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["TypeTravel_personal_travel"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_customer_life_time_value"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"0","2":"0","3":"0","4":"$3,468,550"},{"1":"0","2":"0","3":"1","4":"$14,500"},{"1":"0","2":"1","3":"0","4":"$1,332,050"},{"1":"0","2":"1","3":"1","4":"$1,320,450"},{"1":"1","2":"0","3":"0","4":"$430,550"},{"1":"1","2":"0","3":"1","4":"$2,600"},{"1":"1","2":"1","3":"0","4":"$12,771,700"},{"1":"1","2":"1","3":"1","4":"$3,510,400"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Actual cost of customer churn for loyal customers. 
+predicted_customer_churn_cost_on_test %&gt;%
+    life_time_value_by_customer_type(Satisfaction, CustomerType_loyal_customer, TypeTravel_personal_travel)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Satisfaction"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["CustomerType_loyal_customer"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["TypeTravel_personal_travel"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["total_customer_life_time_value"],"name":[4],"type":["chr"],"align":["left"]}],"data":[{"1":"0","2":"0","3":"0","4":"$2,810,450"},{"1":"0","2":"0","3":"1","4":"$12,550"},{"1":"0","2":"1","3":"0","4":"$3,643,400"},{"1":"0","2":"1","3":"1","4":"$2,550,400"},{"1":"1","2":"0","3":"0","4":"$1,088,650"},{"1":"1","2":"0","3":"1","4":"$4,550"},{"1":"1","2":"1","3":"0","4":"$10,460,350"},{"1":"1","2":"1","3":"1","4":"$2,280,450"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<p><strong>Findings after increasing the rating, making prediction, and calculating the value on TEST data (30% rows):</strong></p>
+<ol style="list-style-type: decimal">
+<li>After calculating the difference between the before and after, the company is able to save 3.54 million (6.19 – 2.65 million) roughly on loyal Business and Personal Travellers who are neutral/dissatisfied, which is around 57% of reduction just by focusing on improving the top 5 important features.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="compare-the-proportion-of-the-neutralunsatisfied-customers-after-improving-the-rating." class="section level3">
+<h3>10.3 Compare the proportion of the neutral/unsatisfied customers after improving the rating.</h3>
+<pre class="r"><code># Actual proportion of neutral/unsatisfied customer. 
+df_falconAirlines$Satisfaction %&gt;% summary() / nrow(df_falconAirlines)</code></pre>
+<pre><code>## neutral_or dissatisfied               satisfied 
+##               0.4526766               0.5473234</code></pre>
+<pre class="r"><code># On TRAIN. 
+# Estimated proportion of neutral/unsatisfied customer after improving the rating. 
+predicted_customer_churn_cost_on_train$.pred_class %&gt;% summary() / nrow(predicted_customer_churn_cost_on_train)</code></pre>
+<pre><code>##         0         1 
+## 0.2910691 0.7089309</code></pre>
+<pre class="r"><code># On TEST.  
+# Estimated proportion of neutral/unsatisfied customer after improving the rating. 
+predicted_customer_churn_cost_on_test$.pred_class %&gt;% summary() / nrow(predicted_customer_churn_cost_on_test)</code></pre>
+<pre><code>##        0        1 
+## 0.291466 0.708534</code></pre>
+<pre class="r"><code># Check the range of reduction in neutral/dissatisfied customer
+# based on different threshold. 
+predicted_customer_churn_cost_on_test %&gt;% 
+    predicted_prob_percentile() %&gt;% 
+    filter(prob &lt;= 0.8) %&gt;% 
+    as.matrix()</code></pre>
+<pre><code>##       percentile prob    
+##  [1,] &quot;0%&quot;       &quot;0.0000&quot;
+##  [2,] &quot;2.5%&quot;     &quot;0.0000&quot;
+##  [3,] &quot;5%&quot;       &quot;0.2941&quot;
+##  [4,] &quot;7.5%&quot;     &quot;0.3012&quot;
+##  [5,] &quot;10%&quot;      &quot;0.3012&quot;
+##  [6,] &quot;12.5%&quot;    &quot;0.3012&quot;
+##  [7,] &quot;15%&quot;      &quot;0.3012&quot;
+##  [8,] &quot;17.5%&quot;    &quot;0.3237&quot;
+##  [9,] &quot;20%&quot;      &quot;0.3237&quot;
+## [10,] &quot;22.5%&quot;    &quot;0.6031&quot;
+## [11,] &quot;25%&quot;      &quot;0.6031&quot;
+## [12,] &quot;27.5%&quot;    &quot;0.6031&quot;
+## [13,] &quot;30%&quot;      &quot;0.7554&quot;</code></pre>
+<hr />
+<p><strong>Findings on the predicted probability by Decision Tree after increasing the rating:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The proportion of the predicted neutral/dissatisfied customers is reduced from 45% to between 22.5–30% (between 0.5 to 0.75 discriminant threshold), which is 15–22.5% of difference just by focusing on improving the top 5 important features.</li>
+</ol>
+<pre class="r"><code># Proportion of customers type who are satisfied or neutral/dissatisfied. 
+predicted_customer_churn_cost_on_test %&gt;% 
+    select(CustomerType_loyal_customer, Satisfaction) %&gt;% 
+    group_by(CustomerType_loyal_customer, Satisfaction) %&gt;% 
+    summarise(Counts=n()) %&gt;% 
+    ungroup() </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["CustomerType_loyal_customer"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Satisfaction"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["Counts"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"0","2":"0","3":"3426"},{"1":"0","2":"1","3":"1110"},{"1":"1","2":"0","3":"7446"},{"1":"1","2":"1","3":"12930"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code># Proportion of customers type who are satisfied or neutral/dissatisfied. 
+predicted_customer_churn_cost_on_test %&gt;% 
+    select(CustomerType_loyal_customer, .pred_class) %&gt;% 
+    group_by(CustomerType_loyal_customer, .pred_class) %&gt;% 
+    summarise(Counts=n()) %&gt;% 
+    ungroup() </code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["CustomerType_loyal_customer"],"name":[1],"type":["dbl"],"align":["right"]},{"label":[".pred_class"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["Counts"],"name":[3],"type":["int"],"align":["right"]}],"data":[{"1":"0","2":"0","3":"4101"},{"1":"0","2":"1","3":"435"},{"1":"1","2":"0","3":"3160"},{"1":"1","2":"1","3":"17216"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The table shows around 57.6% of reduction ((7446 – 3160) / 7446) for neutral/dissatisfied loyal customers just by focusing on improving the top 5 important features.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="conclusion." class="section level2">
+<h2>11 Conclusion.</h2>
+<p><strong>The following recommendations focus on loyal customers who are neutral/dissatisfied:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Extend the user research to interviews with different segment of customers after performing the customer segmentation, especially with personal travellers to find out more on customer preference. We can also inquire them about the top N important features to understand why they matters to them. We can also find out what makes a customer loyal to our FalconAirlines brand so that we can also target the disloyal customers who are neutral/dissatisfied.</li>
+<li>Extend the user research to value mapping to map out and analyse the customer touchpoint and user journey.</li>
+<li>Investigate the <code>Departure_Arrival_time_convenient</code> and <code>Food_drink</code> data as there could be a data error (refer to section 3.3 on negative performing feature — bullet 2).</li>
+<li>Analyse the current business capabilities for the top N important features before moving to the business transformation planning. We can then estimate the potential reduction in customer churn cost for features that the business is capable to plan and execute for that time period.</li>
+<li>We might want to pay extra attention to loyal business travellers since the customer churn cost is higher as they travel more frequently than the personal travellers. Plus, about 69% of our customers are business travellers based on the current data.</li>
+</ol>
+<p>—————————————————– END ——————————————————</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
