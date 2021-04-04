@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Investigating The Complaint Against Cold Storage Milk Products</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://lioneltayyd.github.io/site/">Lionel Tay</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="investigating_the_complaint_against_cold_storage_milk_products.html">Investigating The Complaint Against Cold Storage Milk Products</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Investigating The Complaint Against Cold Storage Milk Products</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#project-purpose.">Project purpose.</a></li>
+<li><a href="#explore-and-familiarise-with-the-dataset.">1. Explore and familiarise with the dataset.</a><ul>
+<li><a href="#summarise-of-the-dataset.">1.1 Summarise of the dataset.</a></li>
+<li><a href="#transform-dtype.">1.2 Transform dtype.</a></li>
+<li><a href="#summarise-of-the-dataset-by-month-variable.">1.3 Summarise of the dataset by ‘Month’ variable.</a></li>
+<li><a href="#check-the-detail-of-the-dataset.">1.4 Check the detail of the dataset.</a></li>
+<li><a href="#visualise-the-distribution-for-temperature-variable.">1.5 Visualise the distribution for ‘Temperature’ variable.</a></li>
+<li><a href="#visualise-the-normality-with-qq-plot.">1.6 Visualise the normality with QQ plot.</a></li>
+<li><a href="#visualise-the-distribution-for-temperature-variable-by-month.">1.7 Visualise the distribution for ‘Temperature’ variable by ‘Month’.</a></li>
+<li><a href="#summary-for-section-1">1.8 Summary for section 1:</a></li>
+</ul></li>
+<li><a href="#perform-hypothesis-testing.">2. Perform hypothesis testing.</a><ul>
+<li><a href="#perform-one-sample-t-test.">2.1 Perform one-sample t-test.</a></li>
+<li><a href="#perform-one-sample-wilcoxon-test.">2.2 Perform one-sample Wilcoxon test.</a></li>
+<li><a href="#summary-for-section-2.">2.3 Summary for section 2.</a></li>
+</ul></li>
+<li><a href="#conclusion.">3. Conclusion.</a></li>
+<li><a href="#notes-for-future-reference.">4. Notes for future reference.</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="project-purpose." class="section level2">
+<h2>Project purpose.</h2>
+<p>In <strong>Mar 2018</strong>, Cold Storage started getting complaints from their clients that they have been getting complaints from end consumers of the dairy products going sour and often smelling. On getting these complaints, the supervisor pulls out data of the last 35 days’ temperatures. As a safety measure, the Supervisor decides to <strong>be vigilant to maintain the temperature at 3.9°C or below</strong>. Hence the analyst team decides to go with <strong>3.9°C as the upper acceptable value for mean temperature at an alpha value of 0.1</strong>. The objective is to find out whether there is a <strong>need for some corrective action in the Cold Storage Plant</strong>. Otherwise the <strong>problem might be due to the procurement side where Cold Storage is getting the Dairy Products</strong> from.</p>
+<hr />
+</div>
+<div id="explore-and-familiarise-with-the-dataset." class="section level2">
+<h2>1. Explore and familiarise with the dataset.</h2>
+<pre class="r"><code>library(pacman)
+p_load(readr, dplyr, plyr, ggplot2, car, fitdistrplus, sjstats, nortest, pwr, reshape2)</code></pre>
+<pre class="r"><code>CS.temp.2018 = read_csv(&quot;csv/Cold_Storage_Mar2018.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Season = col_character(),
+##   Month = col_character(),
+##   Date = col_double(),
+##   Temperature = col_double()
+## )</code></pre>
+<pre class="r"><code>CS.temp.2018</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Season"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Month"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Date"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Temperature"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Summer","2":"Feb","3":"11","4":"4.0"},{"1":"Summer","2":"Feb","3":"12","4":"3.9"},{"1":"Summer","2":"Feb","3":"13","4":"3.9"},{"1":"Summer","2":"Feb","3":"14","4":"4.0"},{"1":"Summer","2":"Feb","3":"15","4":"3.8"},{"1":"Summer","2":"Feb","3":"16","4":"4.0"},{"1":"Summer","2":"Feb","3":"17","4":"4.1"},{"1":"Summer","2":"Feb","3":"18","4":"4.0"},{"1":"Summer","2":"Feb","3":"19","4":"3.8"},{"1":"Summer","2":"Feb","3":"20","4":"3.9"},{"1":"Summer","2":"Feb","3":"21","4":"3.9"},{"1":"Summer","2":"Feb","3":"22","4":"4.6"},{"1":"Summer","2":"Feb","3":"23","4":"4.1"},{"1":"Summer","2":"Feb","3":"24","4":"4.1"},{"1":"Summer","2":"Feb","3":"25","4":"3.9"},{"1":"Summer","2":"Feb","3":"26","4":"3.8"},{"1":"Summer","2":"Feb","3":"27","4":"3.8"},{"1":"Summer","2":"Feb","3":"28","4":"3.9"},{"1":"Summer","2":"Mar","3":"1","4":"3.9"},{"1":"Summer","2":"Mar","3":"2","4":"3.9"},{"1":"Summer","2":"Mar","3":"3","4":"3.9"},{"1":"Summer","2":"Mar","3":"4","4":"4.1"},{"1":"Summer","2":"Mar","3":"5","4":"3.9"},{"1":"Summer","2":"Mar","3":"6","4":"3.9"},{"1":"Summer","2":"Mar","3":"7","4":"4.1"},{"1":"Summer","2":"Mar","3":"8","4":"4.0"},{"1":"Summer","2":"Mar","3":"9","4":"4.1"},{"1":"Summer","2":"Mar","3":"10","4":"3.9"},{"1":"Summer","2":"Mar","3":"11","4":"4.1"},{"1":"Summer","2":"Mar","3":"12","4":"3.8"},{"1":"Summer","2":"Mar","3":"13","4":"4.2"},{"1":"Summer","2":"Mar","3":"14","4":"4.2"},{"1":"Summer","2":"Mar","3":"15","4":"3.8"},{"1":"Summer","2":"Mar","3":"16","4":"3.9"},{"1":"Summer","2":"Mar","3":"17","4":"3.9"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<div id="summarise-of-the-dataset." class="section level3">
+<h3>1.1 Summarise of the dataset.</h3>
+<pre class="r"><code>summary(CS.temp.2018)</code></pre>
+<pre><code>##     Season             Month                Date     
+##  Length:35          Length:35          Min.   : 1.0  
+##  Class :character   Class :character   1st Qu.: 9.5  
+##  Mode  :character   Mode  :character   Median :14.0  
+##                                        Mean   :14.4  
+##                                        3rd Qu.:19.5  
+##                                        Max.   :28.0  
+##   Temperature   
+##  Min.   :3.800  
+##  1st Qu.:3.900  
+##  Median :3.900  
+##  Mean   :3.974  
+##  3rd Qu.:4.100  
+##  Max.   :4.600</code></pre>
+<hr />
+</div>
+<div id="transform-dtype." class="section level3">
+<h3>1.2 Transform dtype.</h3>
+<pre class="r"><code>CS.temp.2018$Season = as.factor(CS.temp.2018$Season)
+CS.temp.2018$Month = as.factor(CS.temp.2018$Month)
+
+# Summarise the dataset. 
+summary(CS.temp.2018)</code></pre>
+<pre><code>##     Season   Month         Date       Temperature   
+##  Summer:35   Feb:18   Min.   : 1.0   Min.   :3.800  
+##              Mar:17   1st Qu.: 9.5   1st Qu.:3.900  
+##                       Median :14.0   Median :3.900  
+##                       Mean   :14.4   Mean   :3.974  
+##                       3rd Qu.:19.5   3rd Qu.:4.100  
+##                       Max.   :28.0   Max.   :4.600</code></pre>
+<hr />
+</div>
+<div id="summarise-of-the-dataset-by-month-variable." class="section level3">
+<h3>1.3 Summarise of the dataset by ‘Month’ variable.</h3>
+<pre class="r"><code>CS.temp.2018.summary.month = ddply(.data=CS.temp.2018, .variable= ~ Month, 
+                                   .fun=function(data) summary(data$Temperature))
+CS.temp.2018.summary.month</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Month"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Min."],"name":[2],"type":["dbl"],"align":["right"]},{"label":["1st Qu."],"name":[3],"type":["dbl"],"align":["right"]},{"label":["Median"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Mean"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["3rd Qu."],"name":[6],"type":["dbl"],"align":["right"]},{"label":["Max."],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Feb","2":"3.8","3":"3.9","4":"3.9","5":"3.972222","6":"4.0","7":"4.6"},{"1":"Mar","2":"3.8","3":"3.9","4":"3.9","5":"3.976471","6":"4.1","7":"4.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+</div>
+<div id="check-the-detail-of-the-dataset." class="section level3">
+<h3>1.4 Check the detail of the dataset.</h3>
+<p><strong>The overview includes the following:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Check the proportion of nulls.</li>
+<li>Check if there’s any duplicated rows.</li>
+</ol>
+<pre class="r"><code>dataset_detail = function(df) {
+    na_count = colSums(is.na(df))
+    
+    # Details. 
+    nulls_proportion = na_count / nrow(df) * 100
+    duplicated_nrows = nrow(which(duplicated(df)))
+    
+    details = list(nulls_proportion, duplicated_nrows)
+    names(details) = c(&quot;nulls_proportion&quot;, &quot;duplicated_nrows&quot;)
+    return(details)
+}
+    
+CS.temp.2018.details = dataset_detail(CS.temp.2018)
+CS.temp.2018.details</code></pre>
+<pre><code>## $nulls_proportion
+##      Season       Month        Date Temperature 
+##           0           0           0           0 
+## 
+## $duplicated_nrows
+## NULL</code></pre>
+<hr />
+</div>
+<div id="visualise-the-distribution-for-temperature-variable." class="section level3">
+<h3>1.5 Visualise the distribution for ‘Temperature’ variable.</h3>
+<pre class="r"><code>ggplot(data=CS.temp.2018) +
+    aes(x=Temperature) +
+    geom_density(fill=&quot;blue&quot;, color=&quot;blue&quot;, alpha=.5)</code></pre>
+<p><img src="investigating_the_complaint_against_cold_storage_milk_products_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="visualise-the-normality-with-qq-plot." class="section level3">
+<h3>1.6 Visualise the normality with QQ plot.</h3>
+<pre class="r"><code>qqnorm(CS.temp.2018$Temperature, pch=1, frame=FALSE)
+qqline(CS.temp.2018$Temperature, lwd=2)</code></pre>
+<p><img src="investigating_the_complaint_against_cold_storage_milk_products_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="visualise-the-distribution-for-temperature-variable-by-month." class="section level3">
+<h3>1.7 Visualise the distribution for ‘Temperature’ variable by ‘Month’.</h3>
+<pre class="r"><code>ggplot(data=CS.temp.2018) +
+    aes(x=Month, y=Temperature) +
+    geom_boxplot() + 
+    geom_hline(yintercept=3.9, color=&quot;red&quot;, alpha=.5)</code></pre>
+<p><img src="investigating_the_complaint_against_cold_storage_milk_products_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="summary-for-section-1" class="section level3">
+<h3>1.8 Summary for section 1:</h3>
+<p><strong>Data dictionary:</strong></p>
+<p>This dataset has 35 row. Each row refers to each date. The counts for each unique value of the <code>Month</code> variable is about 17 rows, which is quite balanced.</p>
+<ol style="list-style-type: decimal">
+<li><strong>Season:</strong> Summer only.</li>
+<li><strong>Month:</strong> February and March only.</li>
+<li><strong>Date:</strong> It refers to the day of the month.</li>
+<li><strong>Temperature:</strong> <strong>Average milk temperature</strong> on that day.</li>
+</ol>
+<p><strong>Findings from section 1.4:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The dataset has no null row.</li>
+<li>The dataset has no duplicated row.</li>
+</ol>
+<p><strong>Findings from section 1.5, 1.6, and 1.7:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The <code>Temperature</code> data is right skewed. Might be a lognormal or gamma distribution.</li>
+<li>The <code>Temperature</code> data has an outlier with a value of 4.6.</li>
+<li>A medium proportion of the <code>Temperature</code> data for <code>Feb</code> and <code>Mar</code> data seem to exceed the 3.9°C boundary.</li>
+</ol>
+<hr />
+<p><strong>Next steps:</strong></p>
+<p>We can see that a medium proportion of the temperature data for both <code>Feb</code> and <code>Mar</code> exceed 3.9°C according to the plot from section 1.6. If the difference between temperature data is greater than 3.9°C, then it is the Cold Storage Plant problem. If the Cold Storage Plant keeps maintaining the temperature around the borderline 4°C, any slight issue throughout procurement process can negatively affect the milk temperature. Hence, to make it safer, it is better to have a sufficient margin of error.</p>
+<p>Before deciding on the testing method, it is vital to keep in mind that the distribution shown by the plot from section 1.7 is non-parametric.</p>
+<p><strong>There are 2 options to test the significance of the mean difference for non-parametric distribution:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Apply <strong>BoxCox transformation</strong> and <strong>perform one-sample t-test</strong>. Z-test is not applicable since we don’t know the standard deviation of the population.</li>
+<li>Apply <strong>one-sample Wilcoxon test for non-parametric test</strong>. However, non-parametric test is less efficient due to lower power compare to parametric test. Additionally, if large number of ties occur, it will make the test unreliable.</li>
+</ol>
+<p>If the outlier is a temporary mistake during the data collecting process, it isn’t a meaningful value. If the outlier is due to the temperature maintainence system issue, then it becomes a meaningful value since it can affect the milk quality. I will go for the later assumption, so I will not remove the outlier.</p>
+<hr />
+</div>
+</div>
+<div id="perform-hypothesis-testing." class="section level2">
+<h2>2. Perform hypothesis testing.</h2>
+<div id="perform-one-sample-t-test." class="section level3">
+<h3>2.1 Perform one-sample t-test.</h3>
+<p><strong>Null hypothesis:</strong> mu(Temperature) &lt;= 3.9</p>
+<p><strong>Alternative hypothesis:</strong> mu(Temperature) &gt; 3.9</p>
+<p><strong>Significant level:</strong> 0.1</p>
+<p>Cold Storage wants to ensure that the milk temperature is not significantly greater than 3.9°C in order to be vigilant. The reason Cold Storage sets a high alpha value at 0.1 (higher than the usual 0.05) is to make it easier to reject the null hypothesis. If no significant result shown, that means we have stronger confidence to say that the milk temperature is significantly lower than 3.9°C, which is what Cold Storage wants in order to be vigilant, although the TYPE 1 error becomes higher.</p>
+<p>Since a medium proportion of the temperature actually exceeds 3.9°C, the null hypothesis will most likely be rejected. Nevertheless, I will move on to testing.</p>
+<hr />
+<div id="applying-boxcox-transformation." class="section level4">
+<h4>2.1.1 Applying BoxCox Transformation.</h4>
+<pre class="r"><code># Find the optimal lambda for transformation. 
+bc = boxcox(Temperature ~ Month, data=CS.temp.2018, na.action=na.omit, lambda=seq(-30,30)) </code></pre>
+<p><img src="investigating_the_complaint_against_cold_storage_milk_products_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre class="r"><code>best.bc.lambda = bc$x[bc$y == max(bc$y)]
+best.bc.lambda</code></pre>
+<pre><code>## [1] -12.42424</code></pre>
+<hr />
+<p>The optimal lambda for BoxCox transformation is <strong>around -12.4</strong>.</p>
+<hr />
+</div>
+<div id="visualise-distribution-of-the-transformed-data." class="section level4">
+<h4>2.1.2 Visualise distribution of the transformed data.</h4>
+<pre class="r"><code>ggplot(data=CS.temp.2018) +
+    aes(x=Temperature^best.bc.lambda) +
+    geom_density(fill=&quot;blue&quot;, color=&quot;blue&quot;, alpha=.5)</code></pre>
+<p><img src="investigating_the_complaint_against_cold_storage_milk_products_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<hr />
+<p>This is the result of the distribution for the temperature data after BoxCox transformation. Keep in mind that due to inverse transformation (-12.4 is negative exponent), the largest value will become the lowest value and vice versa.</p>
+<hr />
+</div>
+<div id="perform-shapiro-wilk-and-anderson-darling-test-on-normality." class="section level4">
+<h4>2.1.3 Perform Shapiro-Wilk and Anderson Darling test on normality.</h4>
+<pre class="r"><code># Shapiro test before BoxCox Transformation.
+shapiro.test(CS.temp.2018$Temperature)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  CS.temp.2018$Temperature
+## W = 0.80656, p-value = 2.751e-05</code></pre>
+<pre class="r"><code># Anderson Darling test before BoxCox Transformation.
+ad.test(CS.temp.2018$Temperature)</code></pre>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  CS.temp.2018$Temperature
+## A = 1.8763, p-value = 6.78e-05</code></pre>
+<pre class="r"><code># Shapiro test after BoxCox Transformation.
+shapiro.test(CS.temp.2018$Temperature^best.bc.lambda)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  CS.temp.2018$Temperature^best.bc.lambda
+## W = 0.90895, p-value = 0.00694</code></pre>
+<pre class="r"><code># Anderson Darling test after BoxCox Transformation.
+ad.test(CS.temp.2018$Temperature^best.bc.lambda)</code></pre>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  CS.temp.2018$Temperature^best.bc.lambda
+## A = 1.406, p-value = 0.001027</code></pre>
+<hr />
+<p>The result still shows a <strong>significant departure from normality after performing the BoxCox transformation</strong>. Nevertheless, the distribution is far less skewed than before.</p>
+<p>Moving on to t-test. I implement an inverse transformation previously, so the alternative will be greater than, not less than.</p>
+<hr />
+</div>
+<div id="perform-t-test." class="section level4">
+<h4>2.1.4 Perform t-test.</h4>
+<p><strong>The hypothesis for one-sample t-test after BoxCox Transformation:</strong></p>
+<p><strong>Null hypothesis:</strong> mu(exponential(Temperature, -12.4)) &gt;= 4.534e-08</p>
+<p><strong>Alternative hypothesis:</strong> mu(exponential(Temperature, -12.4)) &lt; 4.534e-08</p>
+<p><strong>Significant level:</strong> 0.1</p>
+<pre class="r"><code># Perform t-test on the transformed temperature data. 
+# Indicate less than as alternative due to inverse transformation. 
+t.test(x=CS.temp.2018$Temperature^best.bc.lambda, mu=3.9^best.bc.lambda, alternative=&quot;less&quot;, conf.level=0.90, paired=FALSE)</code></pre>
+<pre><code>## 
+##  One Sample t-test
+## 
+## data:  CS.temp.2018$Temperature^best.bc.lambda
+## t = -2.2528, df = 34, p-value = 0.01542
+## alternative hypothesis: true mean is less than 4.53388e-08
+## 90 percent confidence interval:
+##          -Inf 4.295747e-08
+## sample estimates:
+##    mean of x 
+## 3.966693e-08</code></pre>
+<hr />
+</div>
+</div>
+<div id="perform-one-sample-wilcoxon-test." class="section level3">
+<h3>2.2 Perform one-sample Wilcoxon test.</h3>
+<p><strong>Null hypothesis:</strong> median(Temperature) &lt;= 3.9</p>
+<p><strong>Alternative hypothesis:</strong> median(Temperature) &gt; 3.9</p>
+<p><strong>Significant level:</strong> 0.1</p>
+<pre class="r"><code>wilcox.test(CS.temp.2018$Temperature, mu=3.9, 
+            alternative=&quot;greater&quot;, paired=FALSE, conf.level=.90, correct=TRUE) </code></pre>
+<pre><code>## Warning in wilcox.test.default(CS.temp.2018$Temperature, mu = 3.9,
+## alternative = &quot;greater&quot;, : cannot compute exact p-value with ties</code></pre>
+<pre><code>## Warning in wilcox.test.default(CS.temp.2018$Temperature, mu = 3.9,
+## alternative = &quot;greater&quot;, : cannot compute exact p-value with zeroes</code></pre>
+<pre><code>## 
+##  Wilcoxon signed rank test with continuity correction
+## 
+## data:  CS.temp.2018$Temperature
+## V = 195, p-value = 0.002515
+## alternative hypothesis: true location is greater than 3.9</code></pre>
+<hr />
+</div>
+<div id="summary-for-section-2." class="section level3">
+<h3>2.3 Summary for section 2.</h3>
+<p><strong>Findings from section 2.1 and 2.2:</strong></p>
+<ol style="list-style-type: decimal">
+<li>T-test has <strong>0.015 p-value</strong>.</li>
+<li>Wilcoxon test has <strong>0.002 p-value</strong>.</li>
+</ol>
+<p>Both of the test results reject the null hypothesis due to low p-values, which suggests that the mean and median temperature is greater than 3.9°C. Hence, it seems to suggest that Cold Storage Plant should amend their maintenance system.</p>
+<p>However, the result from the t-test is less reliable due to non-normal distribution. To resolve this, we can collect a larger sample size of temperature data to see if the distribution converges to normal. Otherwise, we can still perform BoxCox transformation after collecting more samples.</p>
+<p>The result from Wilcoxon test is also less reliable due to ties. To resolve this, we can retrieve temperature data that is not rounded to 1 decimal to ensure the temperature data maintains a continuous value, and thus avoid the ties.</p>
+<hr />
+</div>
+</div>
+<div id="conclusion." class="section level2">
+<h2>3. Conclusion.</h2>
+<p>In conclusion, based on the test results above, it seems that Cold Storage Plant is responsible for the cause. If we want to get an accurate test result, we can either increase the sample size or retrieve the temperature data in continuous values.</p>
+<hr />
+</div>
+<div id="notes-for-future-reference." class="section level2">
+<h2>4. Notes for future reference.</h2>
+<p><strong>List of things to take note:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The t-test is performed on non-normal distribution, so the result is less reliable.</li>
+<li>Ties issue for the one-sample Wilcoxon test isn’t addressed, so the result is less reliable.</li>
+</ol>
+<p>—————————————————– END ——————————————————</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

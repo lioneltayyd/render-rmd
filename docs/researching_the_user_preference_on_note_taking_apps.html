@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Researching The User Preference On Note-taking Apps</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://lioneltayyd.github.io/site/">Lionel Tay</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li><a href="researching_the_user_preference_on_note_taking_apps.html">Researching The User Preference On Note-taking Apps</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Researching The User Preference On Note-taking Apps</h1>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#project-purpose.">Project purpose.</a></li>
+<li><a href="#result-summary.">Result summary.</a></li>
+<li><a href="#explore-and-familiarise-with-the-dataset.">1 Explore and familiarise with the dataset.</a><ul>
+<li><a href="#summarise-of-the-dataset.">1.1 Summarise of the dataset.</a></li>
+<li><a href="#check-the-detail-of-the-dataset.">1.2 Check the detail of the dataset.</a></li>
+<li><a href="#compare-the-mean-between-different-phone-and-notes-app.">1.3 Compare the mean between different phone and notes-app.</a></li>
+<li><a href="#visualise-the-distribution-based-on-order-by-phone-variable.">1.4 Visualise the distribution based on ‘Order’ by ‘Phone’ variable.</a></li>
+<li><a href="#visualise-the-distribution-based-on-notes-by-phone-variable.">1.5 Visualise the distribution based on ‘Notes’ by ‘Phone’ variable.</a></li>
+<li><a href="#visualise-the-interaction-between-phone-and-notes.">1.6 Visualise the interaction between ‘Phone’ and ‘Notes’.</a></li>
+<li><a href="#summary-for-data-exploration.">1.7 Summary for data exploration.</a></li>
+</ul></li>
+<li><a href="#perform-assumptions-test.">2 Perform assumptions test.</a><ul>
+<li><a href="#perform-mixed-factorial-anova-to-check-whether-there-is-an-order-effect.">2.1 Perform Mixed Factorial ANOVA to check whether there is an order effect.</a></li>
+<li><a href="#perform-shapiro-and-anderson-darling-for-normality-test.">2.2 Perform Shapiro and Anderson Darling for normality test.</a></li>
+<li><a href="#perform-mixed-factorial-anova-test.">2.3 Perform Mixed Factorial ANOVA test.</a></li>
+<li><a href="#perform-pairwise-comparison-with-adjusted-p-value.">2.4 Perform pairwise-comparison with adjusted p-value.</a></li>
+</ul></li>
+<li><a href="#conclusion.">3 Conclusion.</a></li>
+<li><a href="#notes-for-future-reference.">4 Notes for future reference.</a></li>
+</ul>
+</div>
+
+<hr />
+<div id="project-purpose." class="section level2">
+<h2>Project purpose.</h2>
+<p>The user research team conducted an experiment design to find out whether <strong>users use built-in-app or third-party-app more often for note-taking</strong>. There are 20 users. Each user were asked to use both built-in-app and third-party-app on either iPhone or Andriod in different order. The users were randomly assigned to specifc order and device. Meaning, some users will use built-in-app first, while others will use third-app-party first, however, each users will use one device only. The research was conducted for a week. Now that the data is collected, the objective is to <strong>conduct a statistical testing to see whether users prefer one app over the other</strong>. Number of words the users wrote when using a particular app indicates the users’ preference.</p>
+<p><strong>Assumptions about the dataset:</strong></p>
+<ol style="list-style-type: decimal">
+<li>The experiment is with well-controlled and conducted appropriately by the user research team.</li>
+<li>The samples represent the population with proper stratification and sampling method.</li>
+<li>The user research team follows a appropriate procedure when conducting the experiment.</li>
+</ol>
+</div>
+<div id="result-summary." class="section level2">
+<h2>Result summary.</h2>
+<p>The conclusion is that there is <strong>not enough evidence showing that users prefer one note-taking app over the other</strong>. There is also <strong>not enough evidence showing that users prefer one note-taking app over the other on different phone</strong>. However, I can say that <strong>users write more notes on iPhone than Android</strong>.</p>
+<p>Th third-party-app for note-taking doesn’t seem to attract users to write more notes on it than built-in-app. Launching the third-party-app on different phone also doesn’t attract the users’ preference. We should find out the reasons from the users and redesign the third-party app. Otherwise, we can stop investing our time and effort on creating a third-party-app since it might not produce a good return on investment.</p>
+<hr />
+</div>
+<div id="explore-and-familiarise-with-the-dataset." class="section level2">
+<h2>1 Explore and familiarise with the dataset.</h2>
+<pre class="r"><code>df.notes = read_csv(&quot;csv/notes.csv&quot;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Subject = col_double(),
+##   Phone = col_character(),
+##   Notes = col_character(),
+##   Order = col_double(),
+##   Words = col_double()
+## )</code></pre>
+<pre class="r"><code>df.notes</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Subject"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["Phone"],"name":[2],"type":["chr"],"align":["left"]},{"label":["Notes"],"name":[3],"type":["chr"],"align":["left"]},{"label":["Order"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["Words"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"iPhone","3":"Built-in","4":"1","5":"561"},{"1":"1","2":"iPhone","3":"Add-on","4":"2","5":"464"},{"1":"2","2":"Android","3":"Built-in","4":"1","5":"428"},{"1":"2","2":"Android","3":"Add-on","4":"2","5":"433"},{"1":"3","2":"iPhone","3":"Built-in","4":"2","5":"586"},{"1":"3","2":"iPhone","3":"Add-on","4":"1","5":"598"},{"1":"4","2":"Android","3":"Built-in","4":"2","5":"448"},{"1":"4","2":"Android","3":"Add-on","4":"1","5":"347"},{"1":"5","2":"iPhone","3":"Built-in","4":"1","5":"543"},{"1":"5","2":"iPhone","3":"Add-on","4":"2","5":"478"},{"1":"6","2":"Android","3":"Built-in","4":"1","5":"445"},{"1":"6","2":"Android","3":"Add-on","4":"2","5":"365"},{"1":"7","2":"iPhone","3":"Built-in","4":"2","5":"436"},{"1":"7","2":"iPhone","3":"Add-on","4":"1","5":"462"},{"1":"8","2":"Android","3":"Built-in","4":"2","5":"343"},{"1":"8","2":"Android","3":"Add-on","4":"1","5":"348"},{"1":"9","2":"iPhone","3":"Built-in","4":"1","5":"566"},{"1":"9","2":"iPhone","3":"Add-on","4":"2","5":"529"},{"1":"10","2":"Android","3":"Built-in","4":"1","5":"505"},{"1":"10","2":"Android","3":"Add-on","4":"2","5":"407"},{"1":"11","2":"iPhone","3":"Built-in","4":"2","5":"563"},{"1":"11","2":"iPhone","3":"Add-on","4":"1","5":"486"},{"1":"12","2":"Android","3":"Built-in","4":"2","5":"463"},{"1":"12","2":"Android","3":"Add-on","4":"1","5":"395"},{"1":"13","2":"iPhone","3":"Built-in","4":"1","5":"581"},{"1":"13","2":"iPhone","3":"Add-on","4":"2","5":"517"},{"1":"14","2":"Android","3":"Built-in","4":"1","5":"317"},{"1":"14","2":"Android","3":"Add-on","4":"2","5":"423"},{"1":"15","2":"iPhone","3":"Built-in","4":"2","5":"500"},{"1":"15","2":"iPhone","3":"Add-on","4":"1","5":"440"},{"1":"16","2":"Android","3":"Built-in","4":"2","5":"449"},{"1":"16","2":"Android","3":"Add-on","4":"1","5":"312"},{"1":"17","2":"iPhone","3":"Built-in","4":"1","5":"491"},{"1":"17","2":"iPhone","3":"Add-on","4":"2","5":"523"},{"1":"18","2":"Android","3":"Built-in","4":"1","5":"259"},{"1":"18","2":"Android","3":"Add-on","4":"2","5":"418"},{"1":"19","2":"iPhone","3":"Built-in","4":"2","5":"510"},{"1":"19","2":"iPhone","3":"Add-on","4":"1","5":"545"},{"1":"20","2":"Android","3":"Built-in","4":"2","5":"452"},{"1":"20","2":"Android","3":"Add-on","4":"1","5":"433"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+<div id="summarise-of-the-dataset." class="section level3">
+<h3>1.1 Summarise of the dataset.</h3>
+<pre class="r"><code># Transform dtype. 
+df.notes$Order = factor(df.notes$Order)
+df.notes$Notes = factor(df.notes$Notes)
+df.notes$Phone = factor(df.notes$Phone)
+df.notes$Subject = factor(df.notes$Subject)
+
+# Summarise the dataset.
+summary(df.notes)</code></pre>
+<pre><code>##     Subject       Phone         Notes    Order      Words      
+##  1      : 2   Android:20   Add-on  :20   1:20   Min.   :259.0  
+##  2      : 2   iPhone :20   Built-in:20   2:20   1st Qu.:421.8  
+##  3      : 2                                     Median :457.0  
+##  4      : 2                                     Mean   :459.2  
+##  5      : 2                                     3rd Qu.:518.5  
+##  6      : 2                                     Max.   :598.0  
+##  (Other):28</code></pre>
+<hr />
+</div>
+<div id="check-the-detail-of-the-dataset." class="section level3">
+<h3>1.2 Check the detail of the dataset.</h3>
+<p><strong>The overview includes the following:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Check the proportion of nulls.</li>
+<li>Check if there’s any duplicated rows.</li>
+</ol>
+<pre class="r"><code>dataset_detail = function(df) {
+    na_count = colSums(is.na(df))
+    
+    # Details. 
+    nulls_proportion = na_count / nrow(df) * 100
+    duplicated_nrows = nrow(which(duplicated(df)))
+    
+    details = list(nulls_proportion, duplicated_nrows)
+    names(details) = c(&quot;nulls_proportion&quot;, &quot;duplicated_nrows&quot;)
+    return(details)
+}
+    
+df.notes.details = dataset_detail(df.notes)
+df.notes.details</code></pre>
+<pre><code>## $nulls_proportion
+## Subject   Phone   Notes   Order   Words 
+##       0       0       0       0       0 
+## 
+## $duplicated_nrows
+## NULL</code></pre>
+<hr />
+</div>
+<div id="compare-the-mean-between-different-phone-and-notes-app." class="section level3">
+<h3>1.3 Compare the mean between different phone and notes-app.</h3>
+<pre class="r"><code>ddply(df.notes, .variables= ~ Phone + Notes, summarise, words_mean=mean(Words), words_median=median(Words))</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Phone"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Notes"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["words_mean"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["words_median"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Android","2":"Add-on","3":"388.1","4":"401.0"},{"1":"Android","2":"Built-in","3":"410.9","4":"446.5"},{"1":"iPhone","2":"Add-on","3":"504.2","4":"501.5"},{"1":"iPhone","2":"Built-in","3":"533.7","4":"552.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<hr />
+</div>
+<div id="visualise-the-distribution-based-on-order-by-phone-variable." class="section level3">
+<h3>1.4 Visualise the distribution based on ‘Order’ by ‘Phone’ variable.</h3>
+<pre class="r"><code>ggplot(data=df.notes) +
+    aes(x=Words, color=Order, fill=Order) +
+    facet_wrap(vars(Phone)) +
+    geom_density(alpha=.5)</code></pre>
+<p><img src="researching_the_user_preference_on_note_taking_apps_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="visualise-the-distribution-based-on-notes-by-phone-variable." class="section level3">
+<h3>1.5 Visualise the distribution based on ‘Notes’ by ‘Phone’ variable.</h3>
+<pre class="r"><code>ggplot(data=df.notes) +
+    aes(x=Words, color=Notes, fill=Notes) +
+    facet_wrap(vars(Phone)) +
+    geom_density(alpha=.5)</code></pre>
+<p><img src="researching_the_user_preference_on_note_taking_apps_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="visualise-the-interaction-between-phone-and-notes." class="section level3">
+<h3>1.6 Visualise the interaction between ‘Phone’ and ‘Notes’.</h3>
+<pre class="r"><code>with(df.notes, interaction.plot(Notes, Phone, Words, ylim=c(0, max(df.notes$Words))))</code></pre>
+<p><img src="researching_the_user_preference_on_note_taking_apps_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="summary-for-data-exploration." class="section level3">
+<h3>1.7 Summary for data exploration.</h3>
+<p><strong>Findings from the summary:</strong></p>
+<ol style="list-style-type: decimal">
+<li>There are 40 rows in total, but 20 users only.<br />
+</li>
+<li>Each users get to use both built-in-app and third-party-app.</li>
+<li>Users are equally splitted on <code>Phone</code> variable. 10 users use iPhone and another 10 use Andriod.</li>
+<li>The dataset has no null row.</li>
+<li>The dataset has no duplicated row.</li>
+</ol>
+<p><strong>Findings about the variables:</strong></p>
+<ol style="list-style-type: decimal">
+<li><code>Words</code> is the dependent variable.</li>
+<li><code>Phone</code> and <code>Notes</code> are the independent variables.</li>
+<li><code>Phone</code> is between variable.</li>
+<li><code>Notes</code> is within variable.</li>
+<li>This is a dataset with mixed variables where between and within variables co-exist.</li>
+</ol>
+<p><strong>Findings the plots:</strong></p>
+<ol style="list-style-type: decimal">
+<li>From plot 1.4, it seems like there is an order effect. It is important to ensure there is no order effect to avoid confounding factor. I will perform a significant test on this later.</li>
+<li>From plot 1.5, it looks there isn’t a significant difference between built-in-app and third-party-app. I will perform the test later to confirm.</li>
+<li>Looking at the parellel lines from the interaction plot 1.6, it seems like there is no interaction between <code>Phone</code> and <code>Notes</code> on <code>Words</code>.</li>
+</ol>
+<hr />
+<p><strong>Next steps:</strong></p>
+<ol style="list-style-type: decimal">
+<li>I will do a <strong>Mixed Factorial ANOVA to ensure there is no order effect</strong>.</li>
+<li>If step 1 passes, I will do a <strong>normality test using Shapiro and Anderson Darling tests</strong>.</li>
+<li>If step 3 passes or correction on variance is made, I will apply <strong>Mixed Factorical ANOVA</strong> to find out whether the <code>Phone</code> and <code>Notes</code> have significant interaction as well as whether the <code>Phone</code> or <code>Notes</code> have significant difference.</li>
+<li>If step 3 shows a significant difference, perform pairwise-comparison with adjusted p-value.</li>
+</ol>
+<p><strong>The Mixed Factorial ANOVA test above must satisfy the following conditions:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Variance must be equal (aka Sphericity). Sphericity is the situation where the variances of the differences between all combinations of levels of a within-SS factor are equal. It always holds for within-SS factors that have just 2 levels. Since there is only 2 levels for <code>Notes</code> variable, there isn’t a need to test Sphericity.</li>
+<li>Distribution must be normal.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="perform-assumptions-test." class="section level2">
+<h2>2 Perform assumptions test.</h2>
+<div id="perform-mixed-factorial-anova-to-check-whether-there-is-an-order-effect." class="section level3">
+<h3>2.1 Perform Mixed Factorial ANOVA to check whether there is an order effect.</h3>
+<p><strong>Null hypothesis:</strong> Mean(Order1) = Mean(Order2)</p>
+<p><strong>Alternative hypothesis:</strong> Mean(Order1) ≠ Mean(Order2)</p>
+<p><strong>Significant level:</strong> 0.05</p>
+<pre class="r"><code>ezANOVA(data=df.notes, dv=Words, between=Phone, within=Order, wid=Subject)</code></pre>
+<pre><code>## $ANOVA
+##        Effect DFn DFd          F            p p&lt;.05        ges
+## 2       Phone   1  18 43.5625695 3.375888e-06     * 0.56875437
+## 3       Order   1  18  0.5486763 4.684126e-01       0.01368098
+## 4 Phone:Order   1  18  3.0643695 9.705122e-02       0.07189858</code></pre>
+<hr />
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Looking at the result for <code>Order</code> session, it shows that <strong>there is no order effect</strong>. The <strong>p-value is 0.468</strong>.</li>
+<li>There is no interaction effect between <code>Order</code> and <code>Phone</code> as well. The <strong>p-value is 0.097</strong>.</li>
+</ol>
+<p>Moving on to step 2.</p>
+<hr />
+</div>
+<div id="perform-shapiro-and-anderson-darling-for-normality-test." class="section level3">
+<h3>2.2 Perform Shapiro and Anderson Darling for normality test.</h3>
+<p><strong>Null hypothesis:</strong> Distribution is normal.</p>
+<p><strong>Alternative hypothesis:</strong> Distribution is not normal.</p>
+<p><strong>Significant level:</strong> 0.05</p>
+<pre class="r"><code># Shapiro test for normality.
+shapiro.test(df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,     ]$Words
+## W = 0.90411, p-value = 0.2429</code></pre>
+<pre class="r"><code>shapiro.test(df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,     ]$Words
+## W = 0.95494, p-value = 0.727</code></pre>
+<pre class="r"><code>shapiro.test(df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,     ]$Words
+## W = 0.85714, p-value = 0.0706</code></pre>
+<pre class="r"><code>shapiro.test(df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Shapiro-Wilk normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,     ]$Words
+## W = 0.90204, p-value = 0.2307</code></pre>
+<pre class="r"><code># Anderson Darling test for normality.
+ad.test(df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,     ]$Words
+## A = 0.42508, p-value = 0.2519</code></pre>
+<pre class="r"><code>ad.test(df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,     ]$Words
+## A = 0.24337, p-value = 0.6875</code></pre>
+<pre class="r"><code>ad.test(df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,     ]$Words
+## A = 0.76734, p-value = 0.03017</code></pre>
+<pre class="r"><code>ad.test(df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,]$Words)</code></pre>
+<pre><code>## 
+##  Anderson-Darling normality test
+## 
+## data:  df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,     ]$Words
+## A = 0.42012, p-value = 0.2596</code></pre>
+<hr />
+<p><strong>Findings:</strong></p>
+<ol style="list-style-type: decimal">
+<li>All the results show that the distributions pass the normality test.</li>
+<li>The only exception is the <code>Android</code> device and <code>Built-in</code> app. It passes the normality test for Shapiro (p-value 0.07), but fails the Anderson Darling test with a slightly lower p-value (0.03). I will take it as near-normal still despite the contradiction.</li>
+</ol>
+<p>Moving on to step 3.</p>
+<hr />
+</div>
+<div id="perform-mixed-factorial-anova-test." class="section level3">
+<h3>2.3 Perform Mixed Factorial ANOVA test.</h3>
+<p><strong>Null hypothesis:</strong> Mean(variable) = Mean(variable).</p>
+<p><strong>Alternative hypothesis:</strong> Mean(variable) ≠ Mean(variable).</p>
+<p><strong>Significant level:</strong> 0.05</p>
+<pre class="r"><code>ez.model = ezANOVA(data=df.notes, dv=Words, between=Phone, within=Notes, wid=Subject)
+ez.model</code></pre>
+<pre><code>## $ANOVA
+##        Effect DFn DFd           F            p p&lt;.05         ges
+## 2       Phone   1  18 43.56256949 3.375888e-06     * 0.562185697
+## 3       Notes   1  18  2.35976941 1.418921e-01       0.057972811
+## 4 Phone:Notes   1  18  0.03872717 8.461951e-01       0.001008948</code></pre>
+<hr />
+<p><strong>Findings:</strong></p>
+<p>All fail to reject null hypothesis except for <code>Phone</code> variable.</p>
+<ol style="list-style-type: decimal">
+<li><code>Phone</code> has a significant effect on the app usage. <strong>Users write more notes on one phone over the other</strong>.</li>
+<li>There <strong>isn’t any significant difference between ‘built-in-app’ and ‘third-party-app’</strong>. Meaning there is not enough evidence showing users write more on one app over the other.</li>
+<li>The result <strong>doesn’t show a significant interaction between <code>Phone</code> and <code>Notes</code> variable</strong>.</li>
+</ol>
+<p><code>Phone</code> and <code>Notes</code> each has only 2 levels, so there isn’t a need for pairwise comparison. However, I can perform a pairwise comparison for the interaction between <code>Phone</code> and <code>Notes</code>. Nonetheless, it most likely shows no significant difference.</p>
+<hr />
+</div>
+<div id="perform-pairwise-comparison-with-adjusted-p-value." class="section level3">
+<h3>2.4 Perform pairwise-comparison with adjusted p-value.</h3>
+<p><strong>Null hypothesis:</strong> Mean(variable) = Mean(variable).</p>
+<p><strong>Alternative hypothesis:</strong> Mean(variable) ≠ Mean(variable).</p>
+<p><strong>Significant level:</strong> 0.05</p>
+<pre class="r"><code># Compare different notes-app for iPhone users.
+notes.iPhone = t.test(df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,]$Words, 
+                      df.notes[df.notes$Phone == &quot;iPhone&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,]$Words, 
+                      paired=TRUE, var.equal=TRUE)
+
+# Compare different notes-app for Android users.
+notes.Andriod = t.test(df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Built-in&quot;,]$Words, 
+                       df.notes[df.notes$Phone == &quot;Android&quot; &amp; df.notes$Notes == &quot;Add-on&quot;,]$Words, 
+                       paired=TRUE, var.equal=TRUE)
+
+# Adjust p-value. 
+p.adjust(p=c(notes.iPhone$p.value, notes.Andriod$p.value), method=&#39;holm&#39;)</code></pre>
+<pre><code>## [1] 0.1960779 0.4675674</code></pre>
+<pre class="r"><code>with(df.notes, interaction.plot(Notes, Phone, Words, ylim=c(0, max(df.notes$Words))))</code></pre>
+<p><img src="researching_the_user_preference_on_note_taking_apps_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="conclusion." class="section level2">
+<h2>3 Conclusion.</h2>
+<p>The conclusion is that there is <strong>not enough evidence showing that users prefer one note-taking app over the other</strong>. There is also <strong>not enough evidence showing that users prefer one note-taking app over the other on different phone</strong>. However, I can say that <strong>users write more notes on iPhone than Android</strong>.</p>
+<p>Th third-party-app for note-taking doesn’t seem to attract users to write more notes on it than built-in-app. Launching the third-party-app on different phone also doesn’t attract the users’ preference. We should find out the reasons from the users and redesign the third-party app. Otherwise, we can stop investing our time and effort on creating a third-party-app since it might not produce a good return on investment.</p>
+<hr />
+</div>
+<div id="notes-for-future-reference." class="section level2">
+<h2>4 Notes for future reference.</h2>
+<p>Latest update: <strong>2020/02/10</strong></p>
+<p><strong>List of things to take note:</strong></p>
+<ul>
+<li>Currently none.</li>
+</ul>
+<p>—————————————————– END ——————————————————</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
